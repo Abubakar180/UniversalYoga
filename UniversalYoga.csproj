@@ -51,6 +51,9 @@
 	<ItemGroup>
 	  <None Remove="Resources\Fonts\materialdesignicons-webfont.ttf" />
 	  <None Remove="Resources\Fonts\TextaProAlt-Black.otf" />
+	  <None Remove="Resources\Images\booked.png" />
+	  <None Remove="Resources\Images\cart.png" />
+	  <None Remove="Resources\Images\home.png" />
 	  <None Remove="Resources\Images\yoga_pose1.png" />
 	  <None Remove="Resources\Images\yoga_pose2.png" />
 	  <None Remove="Resources\Images\yoga_pose3.png" />
