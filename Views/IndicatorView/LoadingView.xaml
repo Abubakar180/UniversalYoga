@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Mopups:PopupPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 x:Class="UniversalYoga.Views.IndicatorView.LoadingView"
+                 xmlns:Animations="clr-namespace:Mopups.Animations;assembly=Mopups"
+                 xmlns:Mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+                 BackgroundColor="#77000000"
+                 CloseWhenBackgroundIsClicked="False">
+    <Mopups:PopupPage.Animation>
+        <Animations:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </Mopups:PopupPage.Animation>
+    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+
+        <ActivityIndicator x:Name="actind"  Color="{StaticResource SecondoryColor}" IsRunning="True" IsVisible="true" />
+
+        <Label Text="Please Wait" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" FontSize="16"></Label>
+
+    </StackLayout>
+</Mopups:PopupPage>

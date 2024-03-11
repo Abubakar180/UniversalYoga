@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="UniversalYoga.Controls.CustomEntry">
+    <ContentView.Content>
+
+        <Grid>
+
+            <Border BackgroundColor="White"
+                    x:Name="entryFrame"
+                    StrokeThickness="2"
+                    StrokeShape="RoundRectangle 12,12,12,12"
+                    Padding="10,5">
+                <Border.Stroke>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="{StaticResource PrimaryColor}" Offset="0.1" />
+                        <GradientStop Color="{StaticResource SecondoryColor}" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Stroke>
+                <Grid>
+
+                    <Entry FontSize="18"
+                           FontFamily="Texta" 
+                           x:Name="Entry"
+                           Margin="0,0,0,-5"
+                           TextColor="Black"
+                           VerticalOptions="CenterAndExpand"
+                           VerticalTextAlignment="Center"
+                           Focused="Entry_Focused"
+                           Unfocused="Entry_Unfocused"/>
+
+                    <Label x:Name="PlaceHolder"
+                           VerticalTextAlignment="Center"
+                           HorizontalTextAlignment="End"
+                           TextColor="LightGray"
+                           FontSize="18"
+                           Margin="0,0,0,-5"
+                           FontFamily="Texta" >
+
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                        </Label.GestureRecognizers>
+
+                    </Label>
+
+                </Grid>
+
+            </Border>
+
+            <Frame x:Name="titleFrame"
+                   BackgroundColor="White"
+                   BorderColor="Transparent"
+                   Margin="10,5"
+                   CornerRadius="0"
+                   Padding="2,1"
+                   HasShadow="False"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="StartAndExpand">
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                </Frame.GestureRecognizers>
+
+                <Label FontSize="16"
+                       x:Name="Title"
+                       FontFamily="Texta"
+                       VerticalTextAlignment="Center"
+                       TextColor="#C5C6C7"/>
+
+            </Frame>
+
+
+        </Grid>
+
+    </ContentView.Content>
+</ContentView>

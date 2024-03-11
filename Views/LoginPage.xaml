@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="UniversalYoga.Views.LoginPage"
+             NavigationPage.HasNavigationBar="False"       
+             xmlns:behaviour="clr-namespace:UniversalYoga.Behaviours"
+             xmlns:converter="clr-namespace:UniversalYoga.Converters"
+             xmlns:control="clr-namespace:UniversalYoga.Controls"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             BackgroundColor="White">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:IntToBoolConverter x:Key="intToBoolConverter"/>
+        </ResourceDictionary>
+        <Style x:Key="InvalidEntryStyle" TargetType="control:CustomEntry">
+            <Setter Property="EntryTextColor" Value="Red" />
+        </Style>
+        <Style x:Key="ValidEntryStyle" TargetType="control:CustomEntry">
+            <Setter Property="EntryTextColor" Value="Black" />
+        </Style>
+    </ContentPage.Resources>
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0">
+            <StackLayout Margin="20"
+                         VerticalOptions="CenterAndExpand"
+                         Spacing="20">
+                <StackLayout Spacing="5"
+                             Margin="0,20">
+
+                    <Image Source="yoga_pose2.png"
+                            Aspect="AspectFit"
+                            HorizontalOptions="CenterAndExpand"
+                            HeightRequest="60"/>
+
+                    <Label Text="Universal Yoga"
+                            FontFamily="Texta"
+                            HorizontalTextAlignment="Center"
+                            FontAttributes="Bold"
+                            FontSize="26"
+                            TextColor="{StaticResource SecondoryColor}"/>
+                </StackLayout>
+
+                <StackLayout Spacing="20">
+
+                    <Label Text="Login"
+                            FontFamily="Texta"
+                            FontAttributes="Bold"
+                            FontSize="26"
+                            TextColor="Black"
+                           HorizontalTextAlignment="Center"/>
+
+                    <control:CustomEntry TitleText="Email"
+                                         Keyboard="Email"
+                                         EntryTextColor="{Binding EmailColor,Mode=TwoWay}"
+                                         EntryText="{Binding Email,Mode=TwoWay}">
+                        <control:CustomEntry.EntryBehavior>
+                            <behaviour:EmailValidatorBehavior x:Name="emailBehaviour" />
+                        </control:CustomEntry.EntryBehavior>
+                    </control:CustomEntry>
+
+                    <control:CustomEntry TitleText="Password"
+                                         x:Name="password"
+                                         EntryTextColor="Black"
+                                         Placeholder="*At least 6 letters"
+                                         IsPassword="True"
+                                         EntryText="{Binding Password,Mode=TwoWay}"/>
+
+                    <StackLayout Orientation="Horizontal"
+                                 Margin="0,-15,0,0">
+                        <CheckBox Color="Black"
+                                   IsChecked="{Binding remember ,Mode=TwoWay}"/>
+                        <Label Text="Remember me"
+                               FontSize="Body"
+                               VerticalTextAlignment="Center"
+                               FontFamily="Texta"/>
+                    </StackLayout>
+
+
+                </StackLayout>
+
+                <Button Text="Login"
+                        FontFamily="Texta"
+                        FontSize="Medium" 
+                        TextColor="White"
+                        Background="{StaticResource Gradient}"
+                        HorizontalOptions="CenterAndExpand"
+                        WidthRequest="250"
+                        Margin="0,20"
+                        CornerRadius="8"
+                        x:Name="login"
+                       Command="{Binding LoginCMD, Mode=TwoWay}"/>
+
+            </StackLayout>
+        </ScrollView>
+
+        <StackLayout Orientation="Horizontal"
+                     Grid.Row="1"
+                     VerticalOptions="EndAndExpand"
+                     Margin="20"
+                         HorizontalOptions="CenterAndExpand">
+
+            <Label Text="Don't have an account? "
+                       TextColor="Gray"
+                       FontSize="Body"
+                       FontFamily="Texta"
+                       VerticalTextAlignment="Center"/>
+
+            <Button Text="Signup Now"
+                        Style="{StaticResource textButton}"
+                        Command="{Binding SignupCMD , Mode=TwoWay}"/>
+
+        </StackLayout>
+    </Grid>
+</ContentPage>
