@@ -2,11 +2,288 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="UniversalYoga.Views.HomePage"
-             Title="HomePage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             NavigationPage.HasNavigationBar="False"
+             xmlns:Helper="clr-namespace:UniversalYoga.Helpers"
+             xmlns:control="clr-namespace:UniversalYoga.Controls"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             BackgroundColor="#e6e6e6">
+    <Grid RowDefinitions="Auto,*">
+        <Border Background="{StaticResource Gradient}"
+               StrokeThickness="-1"
+               Padding="20,40,20,10"
+               Grid.Row="0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="0,0,15,15"/>
+            </Border.StrokeShape>
+            <StackLayout Spacing="0">
+                <Grid ColumnDefinitions="*,*"
+                      Margin="0,0,0,5"
+                      ColumnSpacing="10">
+                    <Label Grid.ColumnSpan="2"
+                            HorizontalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Welcome&#x0a;" FontFamily="Texta" TextColor="White" FontSize="Body"/>
+                                <Span Text="{Binding Name,Mode=TwoWay}" FontFamily="Texta" TextColor="White" FontSize="18"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <StackLayout Orientation="Horizontal"
+                                 Spacing="3"
+                                Grid.Column="0"
+                                HorizontalOptions="StartAndExpand">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding logoutCmd,Mode=TwoWay}"/>
+                        </StackLayout.GestureRecognizers>
+                        <ImageButton Source="logout_b.png"
+                                     Padding="0" 
+                                     HeightRequest="20"
+                                     WidthRequest="20"
+                                     BackgroundColor="Transparent"
+                                    HorizontalOptions="StartAndExpand"
+                                    x:Name="logout"
+                                     Command="{Binding logoutCmd,Mode=TwoWay}"/>
+                        <Label Text="Logout"
+                               FontFamily="Texta"
+                                TextColor="White"
+                               FontSize="Body"
+                               VerticalTextAlignment="Center"/>
+                    </StackLayout>
+
+
+                    <ImageButton Source="cart_icon.png"
+                                 Padding="0" 
+                                 HeightRequest="30"
+                                 WidthRequest="30"
+                                 BackgroundColor="Transparent"
+                                Grid.Column="1"
+                                HorizontalOptions="EndAndExpand"
+                                x:Name="cart"
+                                 Command="{Binding ViewcartCmd,Mode=TwoWay}"/>
+
+                    <Frame BackgroundColor="White"
+                           BorderColor="Transparent"
+                           HasShadow="False" x:Name="countFrame"
+                           Padding="0"
+                           Grid.Column="1"
+                           IsVisible="{Binding visible,Mode=TwoWay}"
+                           HeightRequest="10"
+                           VerticalOptions="StartAndExpand"
+                           HorizontalOptions="EndAndExpand">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ViewcartCmd}"/>
+                        </Frame.GestureRecognizers>
+                        <Label x:Name="countCart"
+                               Text="{Binding Count,Mode=TwoWay}"
+                               TextColor="{StaticResource SecondoryColor}"
+                               Margin="0"
+                               FontSize="10"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </Frame>
+
+                </Grid>
+
+                <Border Padding="10,0"
+                        Margin="0,10,0,0"
+                                Stroke="LightGray"
+                                StrokeThickness="2"
+                                HeightRequest="45"
+                                BackgroundColor="White">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10"/>
+                    </Border.StrokeShape>
+                    <Grid ColumnDefinitions="Auto,*"
+                                      ColumnSpacing="5">
+                        <Entry Grid.Column="1" x:Name="search" Margin="0,0,0,-3" Text="{Binding searchTxt,Mode=TwoWay}" FontSize="16" PlaceholderColor="LightGray" TextColor="Black" FontFamily="Texta" Placeholder="Search" VerticalOptions="CenterAndExpand" TextChanged="search_TextChanged"/>
+                        <Image Source="{FontImage FontFamily=UserIcon,
+                                                Glyph={x:Static Helper:IconFonts.Magnify}, Color={StaticResource PrimaryColor} ,Size=30}"
+                               Grid.Column="0"
+                                         HeightRequest="30"
+                                         WidthRequest="30"
+                                         BackgroundColor="Transparent"
+                                         HorizontalOptions="StartAndExpand"/>
+                    </Grid>
+                </Border>
+
+            </StackLayout>
+        </Border>
+
+        <ScrollView Grid.Row="1">
+
+            <StackLayout Margin="20,10"
+                         Spacing="20"
+                         toolkit:StateContainer.CurrentState="{Binding CurrentState, Mode=TwoWay}">
+
+                <toolkit:StateContainer.StateViews>
+                    <VerticalStackLayout toolkit:StateView.StateKey="Loading"
+                                         Spacing="20">
+                        
+                        <control:SkeletonView  Color="Silver"
+                                               CornerRadius="8"
+                                               HeightRequest="120"
+                                               HorizontalOptions="FillAndExpand"/>
+                        
+                        <control:SkeletonView  Color="Silver"
+                                               CornerRadius="8"
+                                               HeightRequest="120"
+                                               HorizontalOptions="FillAndExpand"/>
+                        
+                        <control:SkeletonView  Color="Silver"
+                                               CornerRadius="8"
+                                               HeightRequest="120"
+                                               HorizontalOptions="FillAndExpand"/>
+                        
+                        <control:SkeletonView  Color="Silver"
+                                               CornerRadius="8"
+                                               HeightRequest="120"
+                                               HorizontalOptions="FillAndExpand"/>
+                        
+                        <control:SkeletonView  Color="Silver"
+                                               CornerRadius="8"
+                                               HeightRequest="120"
+                                               HorizontalOptions="FillAndExpand"/>
+                    </VerticalStackLayout>
+
+                    <!--  Empty State  -->
+                    <VerticalStackLayout toolkit:StateView.StateKey="Empty">
+
+                        <Label HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               TextColor="Black"
+                               Text="No Classes Found." />
+
+                    </VerticalStackLayout>
+
+                    <CollectionView x:Name="List"
+                                    toolkit:StateView.StateKey="Success"
+                                    SelectionMode="None"
+                                    ItemsSource="{Binding courses,Mode=TwoWay}">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical"
+                                             VerticalItemSpacing="20"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame BackgroundColor="White"
+                                       BorderColor="White"
+                                       HasShadow="False"
+                                       CornerRadius="8">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.SelectedCmd, Source={x:Reference List},Mode=TwoWay}"
+                                                              CommandParameter="{Binding .}"/>
+                                    </Frame.GestureRecognizers>
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <StackLayout Spacing="0"
+                                                     Grid.Column="0">
+                                            <Label Text="{Binding CourseName}"
+                                                   LineBreakMode="TailTruncation"
+                                                   MaxLines="1"
+                                                   FontFamily="Texta"
+                                                   FontSize="20"
+                                                   TextColor="Black"/>
+                                            <Label Text="{Binding TypeOfYoga}"
+                                                   LineBreakMode="TailTruncation"
+                                                   MaxLines="1"
+                                                   FontFamily="Texta"
+                                                   FontSize="14"
+                                                   TextColor="Gray"/>
+                                            <Label Text="{Binding Description}"
+                                                   LineBreakMode="TailTruncation"
+                                                   MaxLines="1"
+                                                   FontFamily="Texta"
+                                                   FontSize="16"
+                                                   TextColor="Black"/>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label >
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Time: "
+                                                                FontFamily="Texta"
+                                                                FontSize="14"
+                                                                TextColor="Black"/>
+                                                            <Span Text="{Binding TimeOfCourse}"
+                                                                FontFamily="Texta"
+                                                                FontSize="20"
+                                                                TextColor="{StaticResource SecondoryColor}"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label Margin="20,0,0,0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Duration: "
+                                                                FontFamily="Texta"
+                                                                FontSize="14"
+                                                                TextColor="Black"/>
+                                                            <Span Text="{Binding Duration}"
+                                                                FontFamily="Texta"
+                                                                FontSize="20"
+                                                                TextColor="{StaticResource SecondoryColor}"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </StackLayout>
+                                        </StackLayout>
+
+                                        <StackLayout Grid.Column="1">
+                                            <Label HorizontalTextAlignment="Center">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding PricePerClass}"
+                                                                FontFamily="Texta"
+                                                                FontSize="Title"
+                                                                TextColor="{StaticResource SecondoryColor}"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+
+                                            <Frame BackgroundColor="{StaticResource SecondoryColor}"
+                                                   BorderColor="Transparent"
+                                                   Padding="10,5"
+                                                   IsVisible="{Binding isCart,Mode=TwoWay}"
+                                                   CornerRadius="30"
+                                                   HorizontalOptions="EndAndExpand"
+                                                   VerticalOptions="EndAndExpand">
+
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.cartCmd, Source={x:Reference List}}"
+                                                                          CommandParameter="{Binding .}"/>
+                                                </Frame.GestureRecognizers>
+
+                                                <StackLayout Orientation="Horizontal"
+                                                             Spacing="5">
+                                                    <Image Source="cart_icon.png"
+                                                           HeightRequest="15"
+                                                           WidthRequest="15"
+                                                           Aspect="AspectFit"/>
+                                                    <Label Text="Add"
+                                                            TextColor="White"
+                                                            FontFamily="Texta"/>
+                                                </StackLayout>
+                                            </Frame>
+
+                                            <Label Text="{Binding status ,Mode=TwoWay}"
+                                                   IsVisible="{Binding Booked,Mode=TwoWay}"
+                                                   TextColor="{StaticResource SecondoryColor}"
+                                                   FontFamily="Texta"
+                                                   HorizontalTextAlignment="Center"
+                                                   VerticalOptions="EndAndExpand"
+                                                   VerticalTextAlignment="End"/>
+
+                                        </StackLayout>
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </toolkit:StateContainer.StateViews>
+
+            </StackLayout>
+
+        </ScrollView>
+    </Grid>
+
 </ContentPage>

@@ -20,9 +20,11 @@
     </Mopups:PopupPage.Animation>
     <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
 
-        <ActivityIndicator x:Name="actind"  Color="{StaticResource SecondoryColor}" IsRunning="True" IsVisible="true" />
+        <ActivityIndicator x:Name="actind"  Color="{StaticResource SecondoryColor}" IsRunning="True" IsVisible="true" 
+                           HeightRequest="30"
+                           WidthRequest="30"/>
 
-        <Label Text="Please Wait" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" FontSize="16"></Label>
+        <Label Text="Please Wait" TextColor="White" FontFamily="Texta" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" FontSize="18"></Label>
 
     </StackLayout>
 </Mopups:PopupPage>

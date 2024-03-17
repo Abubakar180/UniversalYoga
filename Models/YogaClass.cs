@@ -9,6 +9,7 @@ namespace UniversalYoga.Models
 {
     public class YogaClass : BaseViewModel
     {
+        public string Key { get; set; }
         private long id;
         private long courseId;
         private string date;

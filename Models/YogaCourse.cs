@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.Maui.Graphics.Text;
+using SQLite;
+using SQLiteNetExtensions.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +10,12 @@ using UniversalYoga.ViewModels;
 
 namespace UniversalYoga.Models
 {
+    [Table("CourseTable")]
     public class YogaCourse:BaseViewModel
     {
+        [PrimaryKey, AutoIncrement]
+        public int courseID { get; set; }
+        public string Key { get; set; }
         private long id; // Unique identifier for each course
         private string dayOfWeek;
 
@@ -73,5 +80,42 @@ namespace UniversalYoga.Models
             get { return id; }
             set { id = value; OnPropertyChanged(); }
         }
+
+        private bool _isCart;
+        public bool isCart
+        {
+            get { return _isCart; }
+            set
+            {
+                _isCart = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _Booked;
+        public bool Booked
+        {
+            get { return _Booked; }
+            set
+            {
+                _Booked = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _status;
+
+        public string status
+        {
+            get { return _status; }
+            set { _status = value; OnPropertyChanged(); }
+        }
+        private string _BookedBy;
+
+        public string BookedBy
+        {
+            get { return _BookedBy; }
+            set { _BookedBy = value; OnPropertyChanged(); }
+        }
+
     }
 }

@@ -12,12 +12,6 @@
         <ResourceDictionary>
             <converter:IntToBoolConverter x:Key="intToBoolConverter"/>
         </ResourceDictionary>
-        <Style x:Key="InvalidEntryStyle" TargetType="control:CustomEntry">
-            <Setter Property="EntryTextColor" Value="Red" />
-        </Style>
-        <Style x:Key="ValidEntryStyle" TargetType="control:CustomEntry">
-            <Setter Property="EntryTextColor" Value="Black" />
-        </Style>
     </ContentPage.Resources>
     <Grid RowDefinitions="*,Auto">
         <ScrollView Grid.Row="0">

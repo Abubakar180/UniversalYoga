@@ -5,9 +5,24 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:UniversalYoga"
     Shell.NavBarIsVisible="False"
-    Shell.FlyoutBehavior="Disabled">
+    Shell.FlyoutBehavior="Disabled"    
+    xmlns:views="clr-namespace:UniversalYoga.Views"
+       xmlns:Helper="clr-namespace:UniversalYoga.Helpers"
+       FlyoutHeaderBehavior="Fixed"
+       Shell.TabBarBackgroundColor="White"
+       Shell.TabBarUnselectedColor="Gray"
+       Shell.BackgroundColor="Transparent">
 
-    <ShellContent ContentTemplate="{DataTemplate local:MainPage}"
-                  Route="MainPage" />
+    <TabBar Shell.TabBarTitleColor="{StaticResource SecondoryColor}" >
+
+        <Tab Icon="home_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:HomePage}" />
+        </Tab>
+
+        <Tab  Icon="course_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:BookedPage}"/>
+        </Tab>
+
+    </TabBar>
 
 </Shell>
