@@ -156,7 +156,7 @@ public partial class CustomEntry : ContentView
     }
     private void Entry_Focused(object sender, FocusEventArgs e)
     {
-        titleFrame.TranslateTo(0, -25, 200, Easing.CubicInOut); 
+        titleFrame.TranslateTo(0, -25, 200, Easing.CubicInOut);
         Title.TextColor = Color.FromHex("#E70B89");
         PlaceHolder.IsVisible = false;
     }

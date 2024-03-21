@@ -44,13 +44,22 @@ namespace UniversalYoga.ViewModels
                 OnPropertyChanged();
             }
         }
-        private Color _EmailColor;
-
-        public Color EmailColor
+        private bool _isPassword ;
+        public bool isPassword
         {
-            get { return _EmailColor; }
-            set { _EmailColor = value; OnPropertyChanged(); }
+            get { return _isPassword; }
+            set
+            {
+                if (_isPassword != value)
+                {
+                    _isPassword = value;
+                    OnPropertyChanged(nameof(isPassword));
+                    OnPropertyChanged(nameof(eyeImage));
+                }
+            }
         }
+
+        public ImageSource eyeImage => isPassword ? "eye_closed.png" : "eye.png";
 
         private string _Email;
         public string Email
@@ -76,11 +85,13 @@ namespace UniversalYoga.ViewModels
         private readonly IUser _userService;
         private readonly IToast _toast;
         public ICommand LoginCMD { get; set; }
+        public ICommand ProtectedCmd { get; set; }
         public ICommand SignupCMD { get; set; }
+        public ICommand ForgotCmd { get; set; }
         #endregion
         public LoginViewModel()
         {
-            EmailColor = Color.FromHex("#FF0000");
+            isPassword = true;
             Email = string.Empty;
             Password = string.Empty;
             webApi = new FirebaseWebApi();
@@ -88,6 +99,16 @@ namespace UniversalYoga.ViewModels
             _toast = DependencyService.Resolve<IToast>();
             LoginCMD = new Command(Login);
             SignupCMD = new Command(Signup);
+            ForgotCmd = new Command(ForgotPassword);
+            ProtectedCmd = new Command(IsPasswordVisible);
+        }
+        public async void IsPasswordVisible()
+        {
+            isPassword = !isPassword;
+        }
+        public async void ForgotPassword()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new ForgotPasswordPage());
         }
         public async void Login()
         {

@@ -81,9 +81,10 @@ namespace UniversalYoga.ViewModels
                 IsBusy = true;
                 course.isCart = false;
                 course.Booked = true;
+                course.BookedBy = Preferences.Get("Email", "");
                 course.status = "In Cart";
                 var Items = ReadOperations.GetAllWithChildren<YogaCourse>(db);
-                var cart_item = Items.Where(a => a.Id == course.Id).FirstOrDefault();
+                var cart_item = Items.Where(a => a.Id == course.Id && a.BookedBy == course.BookedBy).FirstOrDefault();
                 if (cart_item == null)
                 {
                     db.InsertWithChildren(course);

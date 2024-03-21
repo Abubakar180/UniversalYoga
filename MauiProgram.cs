@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using Mopups.Hosting;
+using Syncfusion.Maui.Core.Hosting;
 using UniversalYoga.Helpers;
 
 namespace UniversalYoga
@@ -15,12 +16,14 @@ namespace UniversalYoga
                 .UseMauiApp<App>()
                 .ConfigureMopups()
                 .UseMauiCommunityToolkit()
+                .ConfigureSyncfusionCore()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                     fonts.AddFont("materialdesignicons-webfont.ttf", "UserIcon");
                     fonts.AddFont("TextaProAlt-Black.otf", "Texta");
+                    fonts.AddFont("TextaLightIt.ttf", "TextaLightIt");
                 })
                 .ConfigureLifecycleEvents(events =>
                 {

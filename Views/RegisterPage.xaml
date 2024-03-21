@@ -109,6 +109,7 @@
                        VerticalTextAlignment="Center"/>
 
             <Button Text="Login Now"
+                        BorderColor="Transparent"
                         Style="{StaticResource textButton}"
                         Command="{Binding LoginCMD , Mode=TwoWay}"/>
 

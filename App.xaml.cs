@@ -11,6 +11,7 @@ namespace UniversalYoga
         public SQLiteConnection db;
         public App()
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjgwODkxNUAzMjMzMmUzMDJlMzBBMlNESW9YanNjejYxQldPbVFBVHZ6dUUvZWtzMjNyekZWTjdLWVlJK2JzPQ ==");
             InitializeComponent();
             db = Services.Utils.CreateConnection();
             //db.DeleteAll<YogaCourse>();

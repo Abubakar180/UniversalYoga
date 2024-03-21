@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Converters;
+using Microsoft.Maui.ApplicationModel.Communication;
 using Mopups.Services;
 using SQLite;
 using SQLiteNetExtensions.Extensions;
@@ -76,6 +77,7 @@ namespace UniversalYoga.ViewModels
         public async void GetCartItems()
         {
             CurrentState = LayoutState.Loading;
+            var email = Preferences.Get("Email", "");
             await Task.Run(async () =>
             {
                 var list = ReadOperations.GetAllWithChildren<YogaCourse>(db);
@@ -87,7 +89,14 @@ namespace UniversalYoga.ViewModels
                 {
                     foreach (var item in list)
                     {
-                        courses.Add(item);
+                        if (Device.RuntimePlatform == Device.UWP)
+                        {
+                            item.IsVisible = true;
+                        }
+                        if (item.BookedBy == email)
+                        {
+                            courses.Add(item);
+                        }
                     }
                     CurrentState = LayoutState.Success;
                 }
@@ -135,9 +144,8 @@ namespace UniversalYoga.ViewModels
         {
             var item = obj as YogaCourse;
             var Items = ReadOperations.GetAllWithChildren<YogaCourse>(db);
-            var cartitem = Items.Where(a => a.Id == item.Id).FirstOrDefault();
+            var cartitem = Items.Where(a => a.Id == item.Id && a.BookedBy == item.BookedBy).FirstOrDefault();
             db.Delete(cartitem);
-            db.DeleteAll(cartitem.BookedBy);
             courses.Remove(item);
         }
         public async void Back()

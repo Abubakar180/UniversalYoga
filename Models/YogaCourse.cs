@@ -92,6 +92,17 @@ namespace UniversalYoga.Models
             }
         }
 
+        private bool _IsVisible;
+        public bool IsVisible
+        {
+            get { return _IsVisible; }
+            set
+            {
+                _IsVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
         private bool _Booked;
         public bool Booked
         {
@@ -116,6 +127,5 @@ namespace UniversalYoga.Models
             get { return _BookedBy; }
             set { _BookedBy = value; OnPropertyChanged(); }
         }
-
     }
 }

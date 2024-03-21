@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="UniversalYoga.Views.FilterPage"
+             NavigationPage.HasNavigationBar="False"
+             Shell.TabBarIsVisible="False"
+             xmlns:Helper="clr-namespace:UniversalYoga.Helpers"
+             xmlns:control="clr-namespace:UniversalYoga.Controls"            
+             xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             BackgroundColor="#e6e6e6">
+    <Grid RowDefinitions="Auto,*,Auto">
+        <Border Background="{StaticResource Gradient}"
+               StrokeThickness="-1"
+               Padding="20,40,20,10"
+               Grid.Row="0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="0,0,15,15"/>
+            </Border.StrokeShape>
+            <StackLayout Spacing="0">
+
+                <Grid Margin="0,0,0,5"
+                      ColumnSpacing="10">
+                    <Label HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Filter" FontFamily="Texta" TextColor="White" FontSize="20"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <ImageButton Source="{FontImage FontFamily=UserIcon,
+                                                Glyph={x:Static Helper:IconFonts.ChevronLeft} , Color=White ,Size=30}"
+                                     Padding="0" 
+                                     HeightRequest="30"
+                                     WidthRequest="30"
+                                     BackgroundColor="Transparent"
+                                    HorizontalOptions="StartAndExpand"
+                                    x:Name="back"
+                                    Command="{Binding BackCmd,Mode=TwoWay}"/>
+                </Grid>
+
+            </StackLayout>
+        </Border>
+
+        <ScrollView Grid.Row="1">
+
+            <StackLayout Margin="20,10"
+                         Spacing="10">
+
+                <Label TextColor="Black"
+                                       FontFamily="Texta"
+                                        Text="Filter by Days" />
+
+                <Border BackgroundColor="White"
+        StrokeThickness="2"
+        StrokeShape="RoundRectangle 12,12,12,12"
+        Padding="10,5">
+                    <Border.Stroke>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="{StaticResource PrimaryColor}" Offset="0.1" />
+                            <GradientStop Color="{StaticResource SecondoryColor}" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Border.Stroke>
+
+                    <editors:SfComboBox x:Name="comboBox"  
+                                                    Placeholder="Select Day of Week"
+                                                    PlaceholderColor="Black"
+                                                    FontSize="18"
+                                                    Text="{Binding Day,Mode=TwoWay}"
+                                                    TextColor="Black"
+                                                    Stroke="Transparent"
+                                                    IsClearButtonVisible="False"
+                                                    FontFamily="Texta"
+                                                    BackgroundColor="Transparent"
+                                                    ItemsSource="{Binding days, Mode=TwoWay}" />
+                </Border>
+
+                <Label TextColor="Black"
+                                       FontFamily="Texta"
+                                        Text="Filter by Time" />
+
+                <Border BackgroundColor="White"
+        StrokeThickness="2"
+        StrokeShape="RoundRectangle 12,12,12,12"
+        Padding="10,5">
+                    <Border.Stroke>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="{StaticResource PrimaryColor}" Offset="0.1" />
+                            <GradientStop Color="{StaticResource SecondoryColor}" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Border.Stroke>
+
+                    <TimePicker Time="{Binding Time,Mode=TwoWay}"
+                                TextColor="Black"
+                                FontSize="18"
+                                FontFamily="Texta"/>
+                </Border>
+
+            </StackLayout>
+
+        </ScrollView>
+
+        <Button Text="Save"
+                Margin="20,10" 
+                BorderColor="{StaticResource SecondoryColor}"
+                BorderWidth="3"
+                TextColor="{StaticResource SecondoryColor}"
+                FontFamily="Texta"
+                FontSize="Subtitle"
+                BackgroundColor="White"
+                CornerRadius="40"
+                Grid.Row="2"
+                Command="{Binding SaveCmd,Mode=TwoWay}"/>
+    </Grid>
+</ContentPage>

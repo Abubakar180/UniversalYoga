@@ -43,6 +43,7 @@
                             TextColor="Black"
                            HorizontalTextAlignment="Center"/>
 
+
                     <control:CustomEntry TitleText="Email"
                                          Keyboard="Email"
                                          EntryTextColor="{Binding EmailColor,Mode=TwoWay}"
@@ -52,12 +53,26 @@
                         </control:CustomEntry.EntryBehavior>
                     </control:CustomEntry>
 
-                    <control:CustomEntry TitleText="Password"
-                                         x:Name="password"
-                                         EntryTextColor="Black"
-                                         Placeholder="*At least 6 letters"
-                                         IsPassword="True"
-                                         EntryText="{Binding Password,Mode=TwoWay}"/>
+                    <Grid>
+
+                        <control:CustomEntry TitleText="Password"
+                                             x:Name="password"
+                                             EntryTextColor="Black"
+                                             IsPassword="{Binding isPassword,Mode=TwoWay}"
+                                             EntryText="{Binding Password,Mode=TwoWay}"/>
+
+                        <ImageButton Source="{Binding eyeImage,Mode=TwoWay}"
+                                     Aspect="AspectFit"
+                                     WidthRequest="{OnPlatform Android='20',iOS='20',WinUI='10'}"
+                                     HeightRequest="{OnPlatform Android='20',iOS='20',WinUI='10'}"
+                                     BackgroundColor="Transparent"
+                                     Padding="{OnPlatform Android='0',iOS='0',WinUI='10'}"
+                                     HorizontalOptions="EndAndExpand"
+                                     VerticalOptions="CenterAndExpand"
+                                     Margin="0,0,20,0"
+                                     Command="{Binding ProtectedCmd,Mode=TwoWay}"/>
+
+                    </Grid>
 
                     <StackLayout Orientation="Horizontal"
                                  Margin="0,-15,0,0">
@@ -66,7 +81,19 @@
                         <Label Text="Remember me"
                                FontSize="Body"
                                VerticalTextAlignment="Center"
-                               FontFamily="Texta"/>
+                               FontFamily="Texta"
+                               TextColor="Black"/>
+                        <Label Text="Forgot Password"
+                               FontSize="Body"
+                               HorizontalOptions="EndAndExpand"
+                               HorizontalTextAlignment="End"
+                               TextDecorations="Underline"
+                               VerticalTextAlignment="Center"
+                               FontFamily="TextaLightIt">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ForgotCmd,Mode=TwoWay}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
                     </StackLayout>
 
 
@@ -100,6 +127,7 @@
                        VerticalTextAlignment="Center"/>
 
             <Button Text="Signup Now"
+                        BorderColor="Transparent"
                         Style="{StaticResource textButton}"
                         Command="{Binding SignupCMD , Mode=TwoWay}"/>
 

@@ -50,12 +50,16 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Fonts\materialdesignicons-webfont.ttf" />
+	  <None Remove="Resources\Fonts\TextaLightIt.ttf" />
 	  <None Remove="Resources\Fonts\TextaProAlt-Black.otf" />
 	  <None Remove="Resources\Images\booked.png" />
 	  <None Remove="Resources\Images\cart.png" />
 	  <None Remove="Resources\Images\cart_check.png" />
 	  <None Remove="Resources\Images\cart_icon.png" />
 	  <None Remove="Resources\Images\course_icon.png" />
+	  <None Remove="Resources\Images\eye.png" />
+	  <None Remove="Resources\Images\eye_closed.png" />
+	  <None Remove="Resources\Images\filter.png" />
 	  <None Remove="Resources\Images\home.png" />
 	  <None Remove="Resources\Images\home_icon.png" />
 	  <None Remove="Resources\Images\logout_b.png" />
@@ -72,6 +76,7 @@
 		<PackageReference Include="Mopups" Version="1.2.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="SQLiteNetExtensions" Version="2.1.0" />
+		<PackageReference Include="Syncfusion.Maui.Inputs" Version="23.1.44" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -85,6 +90,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\CourseDetailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\FilterPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ForgotPasswordPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\HomePage.xaml">

@@ -89,6 +89,7 @@ namespace UniversalYoga.ViewModels
         private readonly ICourses _courseService;
         private readonly IToast _toast;
         public ICommand ViewcartCmd { get; set; }
+        public ICommand FilterCmd { get; set; }
         public ICommand cartCmd { get; set; }
         public ICommand logoutCmd { get; set; }
         public ICommand SelectedCmd { get; set; }
@@ -106,10 +107,11 @@ namespace UniversalYoga.ViewModels
             cartCmd = new Command(AddtoCart);
             logoutCmd = new Command(Logout);
             SelectedCmd = new Command(SelectedItem);
+            FilterCmd = new Command(Filter);
         }
         public async void CountItems()
         {
-
+            var email = Preferences.Get("Email", "");
             Count = 0;
             var Items = ReadOperations.GetAllWithChildren<YogaCourse>(db);
             if (Items == null || Items.Count() == 0)
@@ -120,9 +122,16 @@ namespace UniversalYoga.ViewModels
             {
                 foreach (var item in Items)
                 {
-                    Count = Count + 1;
+                    if (item.BookedBy == email)
+                    {
+                        Count = Count + 1;
+                    }
                 }
                 visible = true;
+            }
+            if (Count == 0)
+            {
+                visible = false;
             }
         }
         public async void RequestForPermission()
@@ -165,9 +174,10 @@ namespace UniversalYoga.ViewModels
                 var item = obj as YogaCourse;
                 item.isCart = false;
                 item.Booked = true;
+                item.BookedBy = Preferences.Get("Email", "");
                 item.status = "In Cart";
                 var Items = ReadOperations.GetAllWithChildren<YogaCourse>(db);
-                var cart_item = Items.Where(a => a.Id == item.Id).FirstOrDefault();
+                var cart_item = Items.Where(a => a.Id == item.Id && a.BookedBy == item.BookedBy).FirstOrDefault();
                 if (cart_item == null)
                 {
                     db.InsertWithChildren(item);
@@ -191,6 +201,7 @@ namespace UniversalYoga.ViewModels
             Preferences.Remove("Address", "");
             Preferences.Remove("Contact", "");
             Preferences.Remove("Name", "");
+            Preferences.Remove("Login", "");
             Application.Current.MainPage = new NavigationPage(new LoginPage());
         }
         public async void GetAllCourses()
@@ -226,7 +237,7 @@ namespace UniversalYoga.ViewModels
                                 var bookedCourse = booked_list.Where(a=>a.Id==item.Id && a.BookedBy == email).FirstOrDefault();
                                 if (bookedCourse == null)
                                 {
-                                    var course = cartItems.Where(a => a.Id == item.Id).FirstOrDefault(); 
+                                    var course = cartItems.Where(a => a.Id == item.Id && a.BookedBy == email).FirstOrDefault(); 
                                     if (course == null)
                                     {
                                         item.isCart = true;
@@ -268,6 +279,10 @@ namespace UniversalYoga.ViewModels
             var item = obj as YogaCourse;
             searchTxt = "";
             await Application.Current.MainPage.Navigation.PushAsync(new CourseDetailPage(item));
+        }
+        public async void Filter()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new FilterPage());
         }
     }
 }

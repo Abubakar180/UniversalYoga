@@ -111,90 +111,115 @@
                                                                     Glyph={x:Static Helper:IconFonts.DeleteOutline},Color=White,Size=35}"
                                                            Aspect="AspectFit"
                                                            HorizontalOptions="CenterAndExpand"/>
-                                                        <Label Text="Delete"
-                                                           FontFamily="Texta"
-                                                           FontAttributes="Bold"
-                                                           HorizontalTextAlignment="Center"
-                                                           TextColor="White"
-                                                           FontSize="15"/>
+                                                        
                                                     </StackLayout>
                                                 </Frame>
                                             </SwipeItemView>
 
                                         </SwipeItems>
                                     </SwipeView.RightItems>
-                                    <Frame BackgroundColor="White"
-                                       BorderColor="White"
-                                       HasShadow="False"
-                                       CornerRadius="8">
-                                        <Grid ColumnDefinitions="*,Auto">
-                                            <StackLayout Spacing="0"
+
+                                    <StackLayout>
+                                        <Frame BackgroundColor="{StaticResource SecondoryColor}"
+                                               IsVisible="{Binding IsVisible, Mode=TwoWay}"
+                                               Padding="2"
+                                               HeightRequest="30"
+                                               CornerRadius="5"
+                                               HorizontalOptions="EndAndExpand"
+                                               BorderColor="{StaticResource SecondoryColor}">
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.DeleteCmd, Source={x:Reference List}}"
+                                                                      CommandParameter="{Binding}"/>
+                                            </Frame.GestureRecognizers>
+                                            <StackLayout HorizontalOptions="CenterAndExpand"
+                                                         VerticalOptions="CenterAndExpand"
+                                                         Orientation="Horizontal">
+                                                <Image Source="{FontImage FontFamily=UserIcon,
+                                                                Glyph={x:Static Helper:IconFonts.DeleteOutline},Color=White,Size=20}"
+                                                       Aspect="AspectFit"/>
+                                                <Label Text="Delete"
+                                                       FontFamily="Texta"
+                                                       FontAttributes="Bold"
+                                                       VerticalTextAlignment="Center"
+                                                       TextColor="White"
+                                                       FontSize="12"/>
+                                            </StackLayout>
+                                        </Frame>
+
+                                        <Frame BackgroundColor="White"
+                                           BorderColor="White"
+                                           HasShadow="False"
+                                           CornerRadius="8">
+                                            <Grid ColumnDefinitions="*,Auto">
+                                                <StackLayout Spacing="0"
                                                      Grid.Column="0">
-                                                <Label Text="{Binding CourseName}"
+                                                    <Label Text="{Binding CourseName}"
                                                    LineBreakMode="TailTruncation"
                                                    MaxLines="1"
                                                    FontFamily="Texta"
                                                    FontSize="20"
                                                    TextColor="Black"/>
-                                                <Label Text="{Binding TypeOfYoga}"
+                                                    <Label Text="{Binding TypeOfYoga}"
                                                    LineBreakMode="TailTruncation"
                                                    MaxLines="1"
                                                    FontFamily="Texta"
                                                    FontSize="14"
                                                    TextColor="Gray"/>
-                                                <Label Text="{Binding Description}"
+                                                    <Label Text="{Binding Description}"
                                                    LineBreakMode="TailTruncation"
                                                    MaxLines="1"
                                                    FontFamily="Texta"
                                                    FontSize="16"
                                                    TextColor="Black"/>
-                                                <StackLayout Orientation="Horizontal">
-                                                    <Label >
-                                                        <Label.FormattedText>
-                                                            <FormattedString>
-                                                                <Span Text="Time: "
+                                                    <StackLayout Orientation="Horizontal">
+                                                        <Label >
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="Time: "
                                                                 FontFamily="Texta"
                                                                 FontSize="14"
                                                                 TextColor="Black"/>
-                                                                <Span Text="{Binding TimeOfCourse}"
+                                                                    <Span Text="{Binding TimeOfCourse}"
                                                                 FontFamily="Texta"
                                                                 FontSize="20"
                                                                 TextColor="{StaticResource SecondoryColor}"/>
-                                                            </FormattedString>
-                                                        </Label.FormattedText>
-                                                    </Label>
-                                                    <Label Margin="20,0,0,0">
-                                                        <Label.FormattedText>
-                                                            <FormattedString>
-                                                                <Span Text="Duration: "
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+                                                        <Label Margin="20,0,0,0">
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="Duration: "
                                                                 FontFamily="Texta"
                                                                 FontSize="14"
                                                                 TextColor="Black"/>
-                                                                <Span Text="{Binding Duration}"
+                                                                    <Span Text="{Binding Duration}"
                                                                 FontFamily="Texta"
                                                                 FontSize="20"
                                                                 TextColor="{StaticResource SecondoryColor}"/>
-                                                            </FormattedString>
-                                                        </Label.FormattedText>
-                                                    </Label>
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+                                                    </StackLayout>
                                                 </StackLayout>
-                                            </StackLayout>
 
-                                            <StackLayout Grid.Column="1">
-                                                <Label HorizontalTextAlignment="Center">
-                                                    <Label.FormattedText>
-                                                        <FormattedString>
-                                                            <Span Text="{Binding PricePerClass}"
+                                                <StackLayout Grid.Column="1">
+                                                    <Label HorizontalTextAlignment="Center">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="{Binding PricePerClass}"
                                                                 FontFamily="Texta"
                                                                 FontSize="Title"
                                                                 TextColor="{StaticResource SecondoryColor}"/>
-                                                        </FormattedString>
-                                                    </Label.FormattedText>
-                                                </Label>
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
 
-                                            </StackLayout>
-                                        </Grid>
-                                    </Frame>
+                                                </StackLayout>
+                                            </Grid>
+                                        </Frame>
+
+                                    </StackLayout>
                                 </SwipeView>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>

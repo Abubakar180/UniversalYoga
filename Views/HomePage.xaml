@@ -37,9 +37,9 @@
                             <TapGestureRecognizer Command="{Binding logoutCmd,Mode=TwoWay}"/>
                         </StackLayout.GestureRecognizers>
                         <ImageButton Source="logout_b.png"
-                                     Padding="0" 
-                                     HeightRequest="20"
-                                     WidthRequest="20"
+                                     Padding="{OnPlatform Android='0',iOS='0',WinUI='10'}" 
+                                     HeightRequest="{OnPlatform Android='20',iOS='20',WinUI='10'}"
+                                     WidthRequest="{OnPlatform Android='20',iOS='20',WinUI='10'}"
                                      BackgroundColor="Transparent"
                                     HorizontalOptions="StartAndExpand"
                                     x:Name="logout"
@@ -53,9 +53,9 @@
 
 
                     <ImageButton Source="cart_icon.png"
-                                 Padding="0" 
-                                 HeightRequest="30"
-                                 WidthRequest="30"
+                                 Padding="{OnPlatform Android='0',iOS='0',WinUI='10'}" 
+                                 HeightRequest="{OnPlatform Android='30',iOS='30',WinUI='30'}"
+                                 WidthRequest="{OnPlatform Android='30',iOS='30',WinUI='30'}"
                                  BackgroundColor="Transparent"
                                 Grid.Column="1"
                                 HorizontalOptions="EndAndExpand"
@@ -67,8 +67,10 @@
                            HasShadow="False" x:Name="countFrame"
                            Padding="0"
                            Grid.Column="1"
+                           CornerRadius="{OnPlatform Android='30',iOS='10',WinUI='10'}"
                            IsVisible="{Binding visible,Mode=TwoWay}"
-                           HeightRequest="10"
+                           WidthRequest="{OnPlatform Android='10',iOS='10',WinUI='20'}"
+                           HeightRequest="{OnPlatform Android='10',iOS='10',WinUI='20'}"
                            VerticalOptions="StartAndExpand"
                            HorizontalOptions="EndAndExpand">
                         <Frame.GestureRecognizers>
@@ -85,27 +87,41 @@
 
                 </Grid>
 
-                <Border Padding="10,0"
+                <!--<Grid ColumnDefinitions="*,Auto"
+                      ColumnSpacing="10">-->
+
+                    <Border Padding="10,0"
+                            Grid.Column="0"
                         Margin="0,10,0,0"
                                 Stroke="LightGray"
                                 StrokeThickness="2"
                                 HeightRequest="45"
                                 BackgroundColor="White">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="10"/>
-                    </Border.StrokeShape>
-                    <Grid ColumnDefinitions="Auto,*"
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10"/>
+                        </Border.StrokeShape>
+                        <Grid ColumnDefinitions="Auto,*"
                                       ColumnSpacing="5">
-                        <Entry Grid.Column="1" x:Name="search" Margin="0,0,0,-3" Text="{Binding searchTxt,Mode=TwoWay}" FontSize="16" PlaceholderColor="LightGray" TextColor="Black" FontFamily="Texta" Placeholder="Search" VerticalOptions="CenterAndExpand" TextChanged="search_TextChanged"/>
-                        <Image Source="{FontImage FontFamily=UserIcon,
+                            <Entry Grid.Column="1" x:Name="search" Margin="0,0,0,-3" Text="{Binding searchTxt,Mode=TwoWay}" FontSize="16" PlaceholderColor="LightGray" TextColor="Black" FontFamily="Texta" Placeholder="Search" VerticalOptions="CenterAndExpand" TextChanged="search_TextChanged"/>
+                            <Image Source="{FontImage FontFamily=UserIcon,
                                                 Glyph={x:Static Helper:IconFonts.Magnify}, Color={StaticResource PrimaryColor} ,Size=30}"
                                Grid.Column="0"
                                          HeightRequest="30"
                                          WidthRequest="30"
                                          BackgroundColor="Transparent"
                                          HorizontalOptions="StartAndExpand"/>
-                    </Grid>
-                </Border>
+                        </Grid>
+                    </Border>
+
+                    <!--<ImageButton Source="filter.png"
+                                 Aspect="AspectFit"
+                                 Padding="0"
+                                 HeightRequest="20"
+                                 WidthRequest="20"
+                                 BackgroundColor="Transparent"
+                                 Command="{Binding filterCmd,Mode=TwoWay}"/>-->
+
+                <!--</Grid>-->
 
             </StackLayout>
         </Border>
@@ -156,115 +172,133 @@
 
                     </VerticalStackLayout>
 
-                    <CollectionView x:Name="List"
-                                    toolkit:StateView.StateKey="Success"
+                    <StackLayout Spacing="20"
+                                    toolkit:StateView.StateKey="Success">
+
+                        <StackLayout Orientation="Horizontal"
+                                         Spacing="5"
+                                         HorizontalOptions="EndAndExpand">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding FilterCmd}"/>
+                            </StackLayout.GestureRecognizers>
+                            <Image Source="{FontImage FontFamily=UserIcon,Glyph={Static Helper:IconFonts.FilterOutline}
+                                                    ,Color=Black,Size=20}"
+                                       HeightRequest="20"
+                                       Aspect="AspectFit"/>
+                            <Label VerticalTextAlignment="Center"
+                                        TextColor="Black"
+                                       FontFamily="Texta"
+                                        Text="Filter" />
+                        </StackLayout>
+
+                        <CollectionView x:Name="List"
                                     SelectionMode="None"
                                     ItemsSource="{Binding courses,Mode=TwoWay}">
-                        <CollectionView.ItemsLayout>
-                            <GridItemsLayout Orientation="Vertical"
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout Orientation="Vertical"
                                              VerticalItemSpacing="20"/>
-                        </CollectionView.ItemsLayout>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Frame BackgroundColor="White"
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame BackgroundColor="White"
                                        BorderColor="White"
                                        HasShadow="False"
                                        CornerRadius="8">
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.SelectedCmd, Source={x:Reference List},Mode=TwoWay}"
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.SelectedCmd, Source={x:Reference List},Mode=TwoWay}"
                                                               CommandParameter="{Binding .}"/>
-                                    </Frame.GestureRecognizers>
-                                    <Grid ColumnDefinitions="*,Auto">
-                                        <StackLayout Spacing="0"
+                                        </Frame.GestureRecognizers>
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <StackLayout Spacing="0"
                                                      Grid.Column="0">
-                                            <Label Text="{Binding CourseName}"
+                                                <Label Text="{Binding CourseName}"
                                                    LineBreakMode="TailTruncation"
                                                    MaxLines="1"
                                                    FontFamily="Texta"
                                                    FontSize="20"
                                                    TextColor="Black"/>
-                                            <Label Text="{Binding TypeOfYoga}"
+                                                <Label Text="{Binding TypeOfYoga}"
                                                    LineBreakMode="TailTruncation"
                                                    MaxLines="1"
                                                    FontFamily="Texta"
                                                    FontSize="14"
                                                    TextColor="Gray"/>
-                                            <Label Text="{Binding Description}"
+                                                <Label Text="{Binding Description}"
                                                    LineBreakMode="TailTruncation"
                                                    MaxLines="1"
                                                    FontFamily="Texta"
                                                    FontSize="16"
                                                    TextColor="Black"/>
-                                            <StackLayout Orientation="Horizontal">
-                                                <Label >
-                                                    <Label.FormattedText>
-                                                        <FormattedString>
-                                                            <Span Text="Time: "
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Label >
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Time: "
                                                                 FontFamily="Texta"
                                                                 FontSize="14"
                                                                 TextColor="Black"/>
-                                                            <Span Text="{Binding TimeOfCourse}"
+                                                                <Span Text="{Binding TimeOfCourse}"
                                                                 FontFamily="Texta"
                                                                 FontSize="20"
                                                                 TextColor="{StaticResource SecondoryColor}"/>
-                                                        </FormattedString>
-                                                    </Label.FormattedText>
-                                                </Label>
-                                                <Label Margin="20,0,0,0">
-                                                    <Label.FormattedText>
-                                                        <FormattedString>
-                                                            <Span Text="Duration: "
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label Margin="20,0,0,0">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Duration: "
                                                                 FontFamily="Texta"
                                                                 FontSize="14"
                                                                 TextColor="Black"/>
-                                                            <Span Text="{Binding Duration}"
+                                                                <Span Text="{Binding Duration}"
                                                                 FontFamily="Texta"
                                                                 FontSize="20"
                                                                 TextColor="{StaticResource SecondoryColor}"/>
-                                                        </FormattedString>
-                                                    </Label.FormattedText>
-                                                </Label>
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </StackLayout>
                                             </StackLayout>
-                                        </StackLayout>
 
-                                        <StackLayout Grid.Column="1">
-                                            <Label HorizontalTextAlignment="Center">
-                                                <Label.FormattedText>
-                                                    <FormattedString>
-                                                        <Span Text="{Binding PricePerClass}"
+                                            <StackLayout Grid.Column="1">
+                                                <Label HorizontalTextAlignment="Center">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="{Binding PricePerClass}"
                                                                 FontFamily="Texta"
                                                                 FontSize="Title"
                                                                 TextColor="{StaticResource SecondoryColor}"/>
-                                                    </FormattedString>
-                                                </Label.FormattedText>
-                                            </Label>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
 
-                                            <Frame BackgroundColor="{StaticResource SecondoryColor}"
+                                                <Frame BackgroundColor="{StaticResource SecondoryColor}"
                                                    BorderColor="Transparent"
                                                    Padding="10,5"
                                                    IsVisible="{Binding isCart,Mode=TwoWay}"
-                                                   CornerRadius="30"
+                                                   CornerRadius="{OnPlatform Android='30',iOS='15',WinUI='15'}"
                                                    HorizontalOptions="EndAndExpand"
                                                    VerticalOptions="EndAndExpand">
 
-                                                <Frame.GestureRecognizers>
-                                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.cartCmd, Source={x:Reference List}}"
+                                                    <Frame.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.cartCmd, Source={x:Reference List}}"
                                                                           CommandParameter="{Binding .}"/>
-                                                </Frame.GestureRecognizers>
+                                                    </Frame.GestureRecognizers>
 
-                                                <StackLayout Orientation="Horizontal"
+                                                    <StackLayout Orientation="Horizontal"
                                                              Spacing="5">
-                                                    <Image Source="cart_icon.png"
+                                                        <Image Source="cart_icon.png"
                                                            HeightRequest="15"
                                                            WidthRequest="15"
                                                            Aspect="AspectFit"/>
-                                                    <Label Text="Add"
+                                                        <Label Text="Add"
                                                             TextColor="White"
                                                             FontFamily="Texta"/>
-                                                </StackLayout>
-                                            </Frame>
+                                                    </StackLayout>
+                                                </Frame>
 
-                                            <Label Text="{Binding status ,Mode=TwoWay}"
+                                                <Label Text="{Binding status ,Mode=TwoWay}"
                                                    IsVisible="{Binding Booked,Mode=TwoWay}"
                                                    TextColor="{StaticResource SecondoryColor}"
                                                    FontFamily="Texta"
@@ -272,12 +306,14 @@
                                                    VerticalOptions="EndAndExpand"
                                                    VerticalTextAlignment="End"/>
 
-                                        </StackLayout>
-                                    </Grid>
-                                </Frame>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                                            </StackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                    </StackLayout>
 
                 </toolkit:StateContainer.StateViews>
 
