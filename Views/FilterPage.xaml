@@ -8,6 +8,7 @@
              xmlns:control="clr-namespace:UniversalYoga.Controls"            
              xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:picker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
              BackgroundColor="#e6e6e6">
     <Grid RowDefinitions="Auto,*,Auto">
         <Border Background="{StaticResource Gradient}"
@@ -50,13 +51,13 @@
                          Spacing="10">
 
                 <Label TextColor="Black"
-                                       FontFamily="Texta"
-                                        Text="Filter by Days" />
+                       FontFamily="Texta"
+                       Text="Filter by Days" />
 
                 <Border BackgroundColor="White"
-        StrokeThickness="2"
-        StrokeShape="RoundRectangle 12,12,12,12"
-        Padding="10,5">
+                        StrokeThickness="2"
+                        StrokeShape="RoundRectangle 12,12,12,12"
+                        Padding="10,5">
                     <Border.Stroke>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                             <GradientStop Color="{StaticResource PrimaryColor}" Offset="0.1" />
@@ -68,7 +69,8 @@
                                                     Placeholder="Select Day of Week"
                                                     PlaceholderColor="Black"
                                                     FontSize="18"
-                                                    Text="{Binding Day,Mode=TwoWay}"
+                                        SelectedItem="{Binding filter.Day,Mode=TwoWay}"
+                                                    Text="{Binding filter.Day,Mode=TwoWay}"
                                                     TextColor="Black"
                                                     Stroke="Transparent"
                                                     IsClearButtonVisible="False"
@@ -78,26 +80,27 @@
                 </Border>
 
                 <Label TextColor="Black"
-                                       FontFamily="Texta"
-                                        Text="Filter by Time" />
+                       FontFamily="Texta"
+                       Text="Filter by Time" />
 
                 <Border BackgroundColor="White"
-        StrokeThickness="2"
-        StrokeShape="RoundRectangle 12,12,12,12"
-        Padding="10,5">
+                        StrokeThickness="2"
+                        StrokeShape="RoundRectangle 12,12,12,12"
+                        Padding="10,5">
                     <Border.Stroke>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                             <GradientStop Color="{StaticResource PrimaryColor}" Offset="0.1" />
                             <GradientStop Color="{StaticResource SecondoryColor}" Offset="1.0" />
                         </LinearGradientBrush>
                     </Border.Stroke>
-
-                    <TimePicker Time="{Binding Time,Mode=TwoWay}"
-                                TextColor="Black"
-                                FontSize="18"
-                                FontFamily="Texta"/>
+                    <Grid>
+                        <TimePicker x:Name="timePicker"
+                                    Time="{Binding filter.Time}"
+                                    TextColor="Black"
+                                    FontSize="18"
+                                    FontFamily="Texta"/>
+                    </Grid>
                 </Border>
-
             </StackLayout>
 
         </ScrollView>

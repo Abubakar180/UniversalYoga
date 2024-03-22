@@ -43,6 +43,13 @@ namespace UniversalYoga.ViewModels
                 OnPropertyChanged();
             }
         }
+        private ObservableCollection<YogaCourse> _filteredcourses;
+
+        public ObservableCollection<YogaCourse> filteredcourses
+        {
+            get { return _filteredcourses; }
+            set { _filteredcourses = value; OnPropertyChanged(); }
+        }
         private ObservableCollection<YogaCourse> _courses;
 
         public ObservableCollection<YogaCourse> courses
@@ -85,29 +92,68 @@ namespace UniversalYoga.ViewModels
             get { return _visible; }
             set { _visible = value; OnPropertyChanged(); }
         }
+        private bool _isVisibleBtn;
+
+        public bool isVisibleBtn
+        {
+            get { return _isVisibleBtn; }
+            set { _isVisibleBtn = value; OnPropertyChanged(); }
+        }
+        private bool _isExpanded;
+
+        public bool isExpanded
+        {
+            get { return _isExpanded; }
+            set { _isExpanded = value; OnPropertyChanged(); }
+        }
+        private FilterModel _data;
+
+        public FilterModel data
+        {
+            get { return _data; }
+            set { _data = value; OnPropertyChanged(); }
+        }
+        private ObservableCollection<string> _days;
+
+        public ObservableCollection<string> days
+        {
+            get { return _days; }
+            set { _days = value; OnPropertyChanged(); }
+        }
         public SQLiteConnection db;
         private readonly ICourses _courseService;
         private readonly IToast _toast;
         public ICommand ViewcartCmd { get; set; }
-        public ICommand FilterCmd { get; set; }
         public ICommand cartCmd { get; set; }
         public ICommand logoutCmd { get; set; }
         public ICommand SelectedCmd { get; set; }
+        public ICommand RemoveFilterCmd { get; set; }
         public HomeViewModel()
         {
+            isVisibleBtn = false;
             CurrentState = LayoutState.Loading;
             Name = Preferences.Get("Name", "");
             db = Utils.CreateConnection();
+            data = new FilterModel();
+            filteredcourses = new ObservableCollection<YogaCourse>();
             courses = new ObservableCollection<YogaCourse>();
             _courseService = DependencyService.Resolve<ICourses>();
             _toast = DependencyService.Resolve<IToast>();
             //GetAllCourses();
             //CountItems();
+            days = new ObservableCollection<string>();
+            days.Add("Monday");
+            days.Add("Tuesday");
+            days.Add("Wednesday");
+            days.Add("Thursday");
+            days.Add("Friday");
+            days.Add("Saturday");
+            days.Add("Sunday");
             ViewcartCmd = new Command(ViewCart);
             cartCmd = new Command(AddtoCart);
             logoutCmd = new Command(Logout);
             SelectedCmd = new Command(SelectedItem);
-            FilterCmd = new Command(Filter);
+            RemoveFilterCmd = new Command(RemoveFilter);
         }
         public async void CountItems()
         {
@@ -234,10 +280,10 @@ namespace UniversalYoga.ViewModels
                             }
                             foreach (var item in list)
                             {
-                                var bookedCourse = booked_list.Where(a=>a.Id==item.Id && a.BookedBy == email).FirstOrDefault();
+                                var bookedCourse = booked_list.Where(a => a.Id == item.Id && a.BookedBy == email).FirstOrDefault();
                                 if (bookedCourse == null)
                                 {
-                                    var course = cartItems.Where(a => a.Id == item.Id && a.BookedBy == email).FirstOrDefault(); 
+                                    var course = cartItems.Where(a => a.Id == item.Id && a.BookedBy == email).FirstOrDefault();
                                     if (course == null)
                                     {
                                         item.isCart = true;
@@ -277,12 +323,19 @@ namespace UniversalYoga.ViewModels
         public async void SelectedItem(object obj)
         {
             var item = obj as YogaCourse;
-            searchTxt = "";
+            searchTxt = ""; 
+            isVisibleBtn = false;
+            isExpanded = false;
+            data = new FilterModel();
             await Application.Current.MainPage.Navigation.PushAsync(new CourseDetailPage(item));
         }
-        public async void Filter()
+        public async void RemoveFilter()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new FilterPage());
+            isVisibleBtn = false;
+            isExpanded = false;
+            data = new FilterModel();
+            courses = new ObservableCollection<YogaCourse>();
+            GetAllCourses();
         }
     }
 }

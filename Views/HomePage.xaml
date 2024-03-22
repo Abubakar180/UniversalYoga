@@ -6,6 +6,7 @@
              xmlns:Helper="clr-namespace:UniversalYoga.Helpers"
              xmlns:control="clr-namespace:UniversalYoga.Controls"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
              BackgroundColor="#e6e6e6">
     <Grid RowDefinitions="Auto,*">
         <Border Background="{StaticResource Gradient}"
@@ -175,21 +176,106 @@
                     <StackLayout Spacing="20"
                                     toolkit:StateView.StateKey="Success">
 
-                        <StackLayout Orientation="Horizontal"
-                                         Spacing="5"
-                                         HorizontalOptions="EndAndExpand">
-                            <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding FilterCmd}"/>
-                            </StackLayout.GestureRecognizers>
-                            <Image Source="{FontImage FontFamily=UserIcon,Glyph={Static Helper:IconFonts.FilterOutline}
+                        <toolkit:Expander IsExpanded="{Binding isExpanded,Mode=TwoWay}">
+                            <toolkit:Expander.Header>
+                                <StackLayout Orientation="Horizontal"
+                                             Margin="0,10">
+                                    <StackLayout Orientation="Horizontal"
+                                                 IsVisible="{Binding isVisibleBtn,Mode=TwoWay}"
+                                                 Spacing="5"
+                                                 HorizontalOptions="StartAndExpand">
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding RemoveFilterCmd}"/>
+                                        </StackLayout.GestureRecognizers>
+                                        <Image Source="{FontImage FontFamily=UserIcon,Glyph={Static Helper:IconFonts.Close}
                                                     ,Color=Black,Size=20}"
-                                       HeightRequest="20"
-                                       Aspect="AspectFit"/>
-                            <Label VerticalTextAlignment="Center"
-                                        TextColor="Black"
-                                       FontFamily="Texta"
-                                        Text="Filter" />
-                        </StackLayout>
+                                               HeightRequest="20"
+                                               Aspect="AspectFit"/>
+                                        <Label VerticalTextAlignment="Center"
+                                                TextColor="Black"
+                                               FontFamily="Texta"
+                                                Text="Remove Filter" />
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal"
+                                                 Spacing="5"
+                                                 HorizontalOptions="EndAndExpand">
+                                        <!--<StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding FilterCmd}"/>
+                                        </StackLayout.GestureRecognizers>-->
+                                        <Image Source="{FontImage FontFamily=UserIcon,Glyph={Static Helper:IconFonts.FilterOutline}
+                                                    ,Color=Black,Size=20}"
+                                               HeightRequest="20"
+                                               Aspect="AspectFit"/>
+                                        <Label VerticalTextAlignment="Center"
+                                                TextColor="Black"
+                                               FontFamily="Texta"
+                                                Text="Filter" />
+                                    </StackLayout>
+                                </StackLayout>
+                            </toolkit:Expander.Header>
+                            <toolkit:Expander.Content>
+                                <Grid ColumnDefinitions="*,*">
+                                    <Border BackgroundColor="White"
+                                            Grid.Column="0"
+                                            VerticalOptions="StartAndExpand"
+                                            StrokeThickness="2"
+                                            StrokeShape="RoundRectangle 12,12,12,12"
+                                            Padding="5,0">
+                                        <Border.Stroke>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                <GradientStop Color="{StaticResource PrimaryColor}" Offset="0.1" />
+                                                <GradientStop Color="{StaticResource SecondoryColor}" Offset="1.0" />
+                                            </LinearGradientBrush>
+                                        </Border.Stroke>
+
+                                        <editors:SfComboBox x:Name="comboBox"  
+                                                            Padding="0"
+                                                            Placeholder="Select Day of Week"
+                                                            PlaceholderColor="Black"
+                                                            FontSize="12"
+                                                            SelectedItem="{Binding data.Day,Mode=TwoWay}"
+                                                            Text="{Binding data.Day,Mode=TwoWay}"
+                                                            TextColor="Black"
+                                                            Stroke="Transparent"
+                                                            IsClearButtonVisible="True"
+                                                            ClearButtonIconColor="Black"
+                                                            FontFamily="Texta"
+                                                            BackgroundColor="Transparent"
+                                                            ItemsSource="{Binding days, Mode=TwoWay}"
+                                                            SelectionChanged="comboBox_SelectionChanged"/>
+                                    </Border>
+                                    <Border BackgroundColor="White"
+                                            Grid.Column="1"
+                                                StrokeThickness="2"
+                                                StrokeShape="RoundRectangle 12,12,12,12"
+                                                Padding="5,0,5,-7">
+                                        <Border.Stroke>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                <GradientStop Color="{StaticResource PrimaryColor}" Offset="0.1" />
+                                                <GradientStop Color="{StaticResource SecondoryColor}" Offset="1.0" />
+                                            </LinearGradientBrush>
+                                        </Border.Stroke>
+                                        <Grid ColumnDefinitions="*,Auto"
+                                                            Margin="0,-5,0,0">
+                                            <TimePicker x:Name="timePicker" 
+                                                            Time="{Binding data.Time}"
+                                                            TextColor="Black"
+                                                            FontSize="12"
+                                                            FontFamily="Texta"/>
+                                            <ImageButton Source="{FontImage FontFamily=UserIcon,Glyph={x:Static Helper:IconFonts.CheckCircle}
+                                                            ,Color=Black ,Size=20}"
+                                                         Padding="0"
+                                                         Margin="0,0,0,3"
+                                                         BackgroundColor="Transparent"
+                                                         HeightRequest="20"
+                                                         WidthRequest="20"
+                                                         Grid.Column="1"
+                                                         Clicked="ImageButton_Clicked"/>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </toolkit:Expander.Content>
+                        </toolkit:Expander>
 
                         <CollectionView x:Name="List"
                                     SelectionMode="None"
@@ -223,12 +309,17 @@
                                                    FontFamily="Texta"
                                                    FontSize="14"
                                                    TextColor="Gray"/>
-                                                <Label Text="{Binding Description}"
-                                                   LineBreakMode="TailTruncation"
-                                                   MaxLines="1"
-                                                   FontFamily="Texta"
-                                                   FontSize="16"
-                                                   TextColor="Black"/>
+                                                <Label 
+                                                       LineBreakMode="TailTruncation"
+                                                       MaxLines="1"
+                                                       TextColor="Black">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Week Day: " FontFamily="Texta" FontSize="16"/>
+                                                            <Span Text="{Binding DayOfWeek}" FontFamily="Texta" FontSize="16"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
                                                 <StackLayout Orientation="Horizontal">
                                                     <Label >
                                                         <Label.FormattedText>

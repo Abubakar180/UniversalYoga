@@ -121,7 +121,7 @@
                                                    FontFamily="Texta"
                                                    FontSize="14"
                                                    TextColor="Gray"/>
-                                            <Label Text="{Binding Description}"
+                                            <Label Text="{Binding DayOfWeek}"
                                                    LineBreakMode="TailTruncation"
                                                    MaxLines="1"
                                                    FontFamily="Texta"

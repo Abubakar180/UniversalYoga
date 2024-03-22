@@ -51,18 +51,8 @@ namespace UniversalYoga.Helpers
             /*Microsoft.Maui.Handlers.TimePickerHandler.Mapper.AppendToMapping("Borderless", (handler, view) =>
             {
 #if ANDROID
-
- //Control.Background = null;
-
-                var layoutParams = new MarginLayoutParams(handler.PlatformView.LayoutParameters);
-                layoutParams.SetMargins(0, 0, 0, 0);
-                handler.PlatformView.LayoutParameters = layoutParams;
-                //Control.LayoutParameters = layoutParams;
-                 handler.PlatformView.SetPadding(0, 0, 0, 0);
-                //SetPadding(0, 0, 0, 0);
-            handler.PlatformView.Background = null;
-            handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
-            //handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Colors.Transparent.ToAndroid());
+                handler.PlatformView.Background = null;
+                handler.PlatformView.SetPadding(0, 0, 0, 0);
 #elif IOS
             handler.PlatformView.BackgroundColor = UIKit.UIColor.Clear;
             handler.PlatformView.Layer.BorderWidth = 0;
