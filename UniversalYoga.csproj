@@ -63,6 +63,7 @@
 	  <None Remove="Resources\Images\home.png" />
 	  <None Remove="Resources\Images\home_icon.png" />
 	  <None Remove="Resources\Images\logout_b.png" />
+	  <None Remove="Resources\Images\trash.png" />
 	  <None Remove="Resources\Images\yoga_pose1.png" />
 	  <None Remove="Resources\Images\yoga_pose2.png" />
 	  <None Remove="Resources\Images\yoga_pose3.png" />

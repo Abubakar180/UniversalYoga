@@ -51,11 +51,12 @@
                 <Frame BackgroundColor="{StaticResource SecondoryColor}"
                                CornerRadius="2"
                                BorderColor="Transparent"
-                               Padding="{OnPlatform Android='5,0',iOS='5,0',WinUI='5,5,5,5'}"
+                               Padding="0"
                        IsVisible="{Binding course.Booked,Mode=TwoWay}"
                                HorizontalOptions="StartAndExpand">
                     <Label Text="{Binding course.status,Mode=TwoWay}"
                                    TextColor="White"
+                           Margin="5,1,5,1"
                                    FontSize="Small"
                                    VerticalTextAlignment="Center"
                                    FontFamily="Texta"/>

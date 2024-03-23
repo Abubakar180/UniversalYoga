@@ -10,7 +10,7 @@
              BackgroundColor="#e6e6e6">
     <Grid RowDefinitions="Auto,*">
         <Border Background="{StaticResource Gradient}"
-               StrokeThickness="-1"
+               StrokeThickness="0"
                Padding="20,40,20,10"
                Grid.Row="0">
             <Border.StrokeShape>

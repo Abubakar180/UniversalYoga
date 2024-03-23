@@ -9,7 +9,7 @@
     xmlns:views="clr-namespace:UniversalYoga.Views"
        xmlns:Helper="clr-namespace:UniversalYoga.Helpers"
        FlyoutHeaderBehavior="Fixed"
-       Shell.TabBarBackgroundColor="White"
+       Shell.TabBarBackgroundColor="{OnPlatform UWP='#81248A',WinUI='#81248A',Android='White',iOS='White'}"
        Shell.TabBarUnselectedColor="Gray"
        Shell.BackgroundColor="Transparent">
 
