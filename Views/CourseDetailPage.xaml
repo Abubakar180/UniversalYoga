@@ -216,8 +216,9 @@
                 FontFamily="Texta"
                 FontSize="Subtitle"
                 BackgroundColor="White"
-                CornerRadius="40"
+                CornerRadius="{OnPlatform Android='40' ,iOS='20',UWP='20',WinUI='20'}"
                 Grid.Row="2"
+                WidthRequest="{OnPlatform  UWP='500',WinUI='500'}"
                 Command="{Binding CartCmd,Mode=TwoWay}"/>
     </Grid>
 </ContentPage>
