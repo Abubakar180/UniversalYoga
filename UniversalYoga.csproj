@@ -12,7 +12,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>UniversalYoga</ApplicationTitle>
+		<ApplicationTitle>Universal Yoga</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.universalyoga</ApplicationId>
