@@ -89,6 +89,7 @@
                     </VerticalStackLayout>
 
                     <CollectionView x:Name="List"
+                        WidthRequest="{OnPlatform  UWP='740',WinUI='740'}"
                                     toolkit:StateView.StateKey="Success"
                                     SelectionMode="None"
                                     ItemsSource="{Binding courses,Mode=TwoWay}">

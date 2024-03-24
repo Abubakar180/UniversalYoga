@@ -75,6 +75,7 @@
 
                     </VerticalStackLayout>
                     <CollectionView x:Name="List"
+                        WidthRequest="{OnPlatform  UWP='740',WinUI='740'}"
                                     toolkit:StateView.StateKey="Success"
                                     ItemsSource="{Binding courses,Mode=TwoWay}">
                         <CollectionView.EmptyView>
@@ -87,8 +88,7 @@
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Vertical"
                                              VerticalItemSpacing="20"
-                                             HorizontalItemSpacing="20"
-                                             Span="{OnPlatform Android='1' , iOS='1', WinUI='2', UWP='2'}"/>
+                                             HorizontalItemSpacing="20"/>
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
@@ -112,8 +112,12 @@
                                                         <Image Source="trash.png"
                                                                HeightRequest="35"
                                                                Aspect="AspectFit"
-                                                               HorizontalOptions="CenterAndExpand"/>
-                                                        
+                                                               HorizontalOptions="CenterAndExpand">
+                                                            <Image.Behaviors>
+                                                                <toolkit:IconTintColorBehavior TintColor="White"/>
+                                                            </Image.Behaviors>
+                                                        </Image>
+
                                                     </StackLayout>
                                                 </Frame>
                                             </SwipeItemView>
@@ -242,7 +246,7 @@
                 BackgroundColor="White"
                 CornerRadius="{OnPlatform Android='40' ,iOS='20',UWP='20',WinUI='20'}"
                 Grid.Row="2"
-                WidthRequest="{OnPlatform  UWP='500',WinUI='500'}"
+                        WidthRequest="{OnPlatform  UWP='740',WinUI='740'}"
                 Command="{Binding BookCmd,Mode=TwoWay}"/>
     </Grid>
 </ContentPage>

@@ -46,7 +46,8 @@
         <ScrollView Grid.Row="1">
 
             <StackLayout Margin="20,10"
-                         Spacing="5">
+                         Spacing="5"
+                        WidthRequest="{OnPlatform  UWP='740',WinUI='740'}">
 
                 <Frame BackgroundColor="{StaticResource SecondoryColor}"
                                CornerRadius="2"

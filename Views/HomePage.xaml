@@ -131,6 +131,7 @@
 
             <StackLayout Margin="20,10"
                          Spacing="20"
+                        WidthRequest="{OnPlatform  UWP='740',WinUI='740'}"
                          toolkit:StateContainer.CurrentState="{Binding CurrentState, Mode=TwoWay}">
 
                 <toolkit:StateContainer.StateViews>
