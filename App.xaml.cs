@@ -43,14 +43,8 @@ namespace UniversalYoga
             window.X = 500;
             window.Y = 200;
 
-            //window.Width = newWidth;
-            //window.Height = newHeight;
-
             window.MinimumHeight = newHeight;
             window.MinimumWidth = newWidth;
-
-            //window.MinimumHeight = newHeight;
-            //window.MaximumWidth = newWidth;
 
             return window;
         }
