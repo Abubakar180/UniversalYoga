@@ -5,6 +5,7 @@
              x:Class="UniversalYoga.App">
     <Application.Resources>
         <ResourceDictionary>
+            <!--We can set styles properties for elements here--> 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
