@@ -20,6 +20,8 @@ namespace UniversalYoga.ViewModels
 {
     public class CartViewModel: BaseViewModel
     {
+        #region
+        /*If the value of IsBusy is true the LoadingView will appear behaves like a popup.*/
         private bool _IsBusy;
         public bool IsBusy
         {
@@ -63,6 +65,7 @@ namespace UniversalYoga.ViewModels
         public ICommand BookCmd { get; set; }
         public ICommand BackCmd { get; set; }
         public ICommand DeleteCmd { get; set; }
+        #endregion
         public CartViewModel()
         {
             CurrentState = LayoutState.Loading;
@@ -75,12 +78,14 @@ namespace UniversalYoga.ViewModels
             BookCmd = new Command(BookNow);
             DeleteCmd = new Command(DeleteItem);
         }
+        #region Functions
         public async void GetCartItems()
         {
             CurrentState = LayoutState.Loading;
             var email = Preferences.Get("Email", "");
             await Task.Run(async () =>
-            {
+            { 
+                /*Getting list of items from local DB.*/
                 var list = ReadOperations.GetAllWithChildren<YogaCourse>(db);
                 if (list == null || list.Count == 0)
                 {
@@ -92,6 +97,9 @@ namespace UniversalYoga.ViewModels
                     {
                         if (Device.RuntimePlatform == Device.UWP)
                         {
+                            /*IsVisible value is bound with delete button appearing on each item.
+                             If app is running on Windows then IsVisible value will be true for each item.
+                             Because Swipe does not work if the screen is not touchable*/
                             item.IsVisible = true;
                         }
                         if (item.BookedBy == email)
@@ -103,6 +111,7 @@ namespace UniversalYoga.ViewModels
                 }
             });
         }
+        /*This Method is called when user clicks on Book now button in cart page.*/
         public async void BookNow()
         {
             var current = Connectivity.NetworkAccess;
@@ -132,8 +141,9 @@ namespace UniversalYoga.ViewModels
                                 await _courseService.BookCourse(course);
                             }
                         }
+                        /*When all courses are saved to Firebase DB. 
+                         It will Delete the All data from local DB and clears the list.*/
                         db.DeleteAll<YogaCourse>();
-                        //db.DeleteAll<BookbyModel>();
                         courses.Clear();
                         await Application.Current.MainPage.DisplayAlert("", "Courses Booked.", "OK");
                         IsBusy = false;
@@ -154,13 +164,17 @@ namespace UniversalYoga.ViewModels
         {
             var item = obj as YogaCourse;
             var Items = ReadOperations.GetAllWithChildren<YogaCourse>(db);
+            /*The item can be extracted where course id and email matches.*/
             var cartitem = Items.Where(a => a.Id == item.Id && a.BookedBy == item.BookedBy).FirstOrDefault();
+            /*Extracted Item Deleted.*/
             db.Delete(cartitem);
             courses.Remove(item);
         }
         public async void Back()
         {
+            /*For Going back to previous Screen/Page.*/
             await Application.Current.MainPage.Navigation.PopAsync();
         }
+        #endregion
     }
 }

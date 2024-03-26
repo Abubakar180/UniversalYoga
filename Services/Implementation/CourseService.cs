@@ -38,8 +38,10 @@ namespace UniversalYoga.Services.Implementation
 
         public async Task<bool> BookCourse(YogaCourse model)
         {
+            /*Try catch approach helps us to identify the cause of exception at runtime.*/
             try
-            {
+            {/*Saving data in realtime firebase DB by accessing the table name.
+               PostAsync method is used to save the data in table. */
                 await firebase.Child("booked").PostAsync(new YogaCourse()
                 {
                     Id = model.Id,
@@ -78,32 +80,5 @@ namespace UniversalYoga.Services.Implementation
                 Key = f.Key
             }).ToList();
         }
-
-        //public async Task<bool> BookCourse(YogaCourse model)
-        //{
-        //    var result = await firebase.Child("booked").PostAsync(new YogaCourse()
-        //    {
-        //        Id = model.Id,
-        //        CourseName = model.CourseName,
-        //        DayOfWeek = model.DayOfWeek,
-        //        TimeOfCourse = model.TimeOfCourse,
-        //        Capacity = model.Capacity,
-        //        Duration = model.Duration,
-        //        PricePerClass = model.PricePerClass,
-        //        Description = model.Description,
-        //        TypeOfYoga = model.TypeOfYoga,
-        //        BookedBy = model.BookedBy,
-        //    });
-
-        //    if (result.Object != null)
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-
-        //    }
-        //}
     }
 }

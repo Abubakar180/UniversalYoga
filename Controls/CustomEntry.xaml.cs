@@ -2,6 +2,7 @@ namespace UniversalYoga.Controls;
 
 public partial class CustomEntry : ContentView
 {
+    /*Bindable Properties are created here for Custom Entry. So the entry's property can be changed according to desire*/
     public static readonly BindableProperty TitleTextProperty = BindableProperty.Create(
           nameof(TitleText),
           typeof(string),
@@ -148,19 +149,18 @@ public partial class CustomEntry : ContentView
 	{
 		InitializeComponent();
         this.Entry.SetBinding(Entry.TextProperty, new Binding(nameof(EntryText), source: this));
-
         this.Entry.SetBinding(Entry.KeyboardProperty, new Binding(nameof(Keyboard), source: this));
-
         this.Entry.SetBinding(Entry.IsPasswordProperty, new Binding(nameof(IsPassword), source: this));
         this.Entry.SetBinding(Entry.TextColorProperty, new Binding(nameof(EntryTextColor), source: this));
     }
+    /*When Entry is Focused. It animates the Title of Entry upwards by changing its color.*/
     private void Entry_Focused(object sender, FocusEventArgs e)
     {
         titleFrame.TranslateTo(0, -25, 200, Easing.CubicInOut);
         Title.TextColor = Color.FromHex("#E70B89");
         PlaceHolder.IsVisible = false;
     }
-
+    /*When Entry is Focused. It animates back the Title of Entry where it was before.*/
     private void Entry_Unfocused(object sender, FocusEventArgs e)
     {
         if (Entry.Text == "" || Entry.Text == null || Entry.Text == string.Empty)

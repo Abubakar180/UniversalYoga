@@ -7,6 +7,7 @@ using UniversalYoga.Models;
 
 namespace UniversalYoga.Services.Interface
 {
+    /*An Interface containg Methods for saving and fetching courses's info.*/
     public interface ICourses
     {
         Task<bool> BookCourse(YogaCourse model);

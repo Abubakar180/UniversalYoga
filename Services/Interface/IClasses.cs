@@ -7,6 +7,7 @@ using UniversalYoga.Models;
 
 namespace UniversalYoga.Services.Interface
 {
+    /*An Interface containg Methods for saving and fetching classes's info.*/
     public interface IClasses
     {
         Task<List<YogaClass>> GetAllClassesAsync();

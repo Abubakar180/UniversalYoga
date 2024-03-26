@@ -18,6 +18,7 @@ namespace UniversalYoga.ViewModels
 {
     public class CourseViewModel : BaseViewModel
     {
+        #region
         private bool _IsBusy;
         public bool IsBusy
         {
@@ -62,10 +63,13 @@ namespace UniversalYoga.ViewModels
         private readonly IToast _toast;
         public ICommand BackCmd { get; set; }
         public ICommand CartCmd { get; set; }
+        #endregion
         public CourseViewModel(YogaCourse model)
         {
             db = Utils.CreateConnection();
             course = new YogaCourse();
+            /*course is assigned with model.
+             The model contains the data of course if item is tapped from courses list.*/
             course = model;
             classes = new ObservableCollection<YogaClass>();
             _classService = DependencyService.Resolve<IClasses>();
@@ -74,6 +78,7 @@ namespace UniversalYoga.ViewModels
             BackCmd = new Command(Back);
             CartCmd = new Command(AddtoCart);
         }
+        #region Functions
         public async void AddtoCart()
         {
             try
@@ -82,8 +87,10 @@ namespace UniversalYoga.ViewModels
                 course.isCart = false;
                 course.Booked = true;
                 course.BookedBy = Preferences.Get("Email", "");
+                /*Assigning status.*/
                 course.status = "In Cart";
                 var Items = ReadOperations.GetAllWithChildren<YogaCourse>(db);
+                /*Checks if the same item is already in the cart based on course id and user email.*/
                 var cart_item = Items.Where(a => a.Id == course.Id && a.BookedBy == course.BookedBy).FirstOrDefault();
                 if (cart_item == null)
                 {
@@ -119,6 +126,7 @@ namespace UniversalYoga.ViewModels
                     {
                         foreach (var item in list)
                         {
+                            /*It will add item in classes list where course id matches.*/
                             if (course.Id == item.CourseId)
                             {
                                 classes.Add(item);
@@ -143,5 +151,6 @@ namespace UniversalYoga.ViewModels
         {
             await Application.Current.MainPage.Navigation.PopAsync();
         }
+        #endregion
     }
 }

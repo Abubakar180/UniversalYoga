@@ -15,11 +15,13 @@ using UniversalYoga.Services;
 using UniversalYoga.Services.Interface;
 using UniversalYoga.Views;
 using UniversalYoga.Views.IndicatorView;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace UniversalYoga.ViewModels
 {
     public class HomeViewModel: BaseViewModel
     {
+        #region
         private bool _IsBusy;
         public bool IsBusy
         {
@@ -128,6 +130,9 @@ namespace UniversalYoga.ViewModels
         public ICommand logoutCmd { get; set; }
         public ICommand SelectedCmd { get; set; }
         public ICommand RemoveFilterCmd { get; set; }
+        #endregion
+
+        #region Constructor
         public HomeViewModel()
         {
             isVisibleBtn = false;
@@ -155,6 +160,11 @@ namespace UniversalYoga.ViewModels
             SelectedCmd = new Command(SelectedItem);
             RemoveFilterCmd = new Command(RemoveFilter);
         }
+        #endregion
+
+        #region Functions
+        /*This Functions Counts the number of items in cart. 
+         Number will be invisible if there is not a single item in cart*/
         public async void CountItems()
         {
             var email = Preferences.Get("Email", "");
@@ -180,6 +190,8 @@ namespace UniversalYoga.ViewModels
                 visible = false;
             }
         }
+
+        /*Requesting for storage permission to save the data in local DB.*/
         public async void RequestForPermission()
         {
             try
@@ -212,6 +224,8 @@ namespace UniversalYoga.ViewModels
         {
             RequestForPermission();
         }
+
+        /*This Function will run if user taps on add to cart.*/
         public async void AddtoCart(object obj)
         {
             try
@@ -241,8 +255,10 @@ namespace UniversalYoga.ViewModels
                 await Application.Current.MainPage.DisplayAlert("", ex.Message, "OK");
             }
         }
+        /*This Function will run if user taps on logout.*/
         public async void Logout()
         {
+            /*To remove Preferences and goto to the Login Page*/
             Preferences.Remove("Email", "");
             Preferences.Remove("Address", "");
             Preferences.Remove("Contact", "");
@@ -280,24 +296,34 @@ namespace UniversalYoga.ViewModels
                             }
                             foreach (var item in list)
                             {
+                                /*First it will check whether course is booked or not.
+                                 By matching the course id and email*/
                                 var bookedCourse = booked_list.Where(a => a.Id == item.Id && a.BookedBy == email).FirstOrDefault();
+                                /*If it does retrive the booked course*/
                                 if (bookedCourse == null)
                                 {
+                                    /*Then it will check whether course is in the cart or not.*/
                                     var course = cartItems.Where(a => a.Id == item.Id && a.BookedBy == email).FirstOrDefault();
+                                    /*If it does retrive the cart course*/
                                     if (course == null)
                                     {
+                                        /*Then add to cart button will be visible.*/
                                         item.isCart = true;
                                         item.Booked = false;
                                     }
+                                    /*If it retrives the cart course*/
                                     else
                                     {
+                                        /*Then the item status will be In Cart and add to cart button will be invisible.*/
                                         item.status = "In Cart";
                                         item.isCart = false;
                                         item.Booked = true;
                                     }
                                 }
+                                /*If it retrives the booked course*/
                                 else
                                 {
+                                    /*Then the item status will be Booked and add to cart button will be invisible.*/
                                     item.status = "Booked";
                                     item.isCart = false;
                                     item.Booked = true;
@@ -327,8 +353,10 @@ namespace UniversalYoga.ViewModels
             isVisibleBtn = false;
             isExpanded = false;
             data = new FilterModel();
+            /*The selected item will be passed to CourseDetailPage as parameter.*/
             await Application.Current.MainPage.Navigation.PushAsync(new CourseDetailPage(item));
         }
+        /*This Function will run if user taps on remove filter button.*/
         public async void RemoveFilter()
         {
             isVisibleBtn = false;
@@ -337,5 +365,6 @@ namespace UniversalYoga.ViewModels
             courses = new ObservableCollection<YogaCourse>();
             GetAllCourses();
         }
+        #endregion
     }
 }

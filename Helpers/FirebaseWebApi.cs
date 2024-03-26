@@ -4,6 +4,8 @@ using System.Text;
 
 namespace UniversalYoga.Helpers
 {
+    /*In this class WebAPIKey, DatabaseLink and DatabaseSecret,taken from firebase portal
+     , has been assigned to variables.*/
     public class FirebaseWebApi
     {
         public string WebAPIKey = "AIzaSyA_yZErgcLlb60Hyy-XP7A4YtIQN870ZjY";

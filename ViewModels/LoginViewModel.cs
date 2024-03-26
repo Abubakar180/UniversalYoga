@@ -102,6 +102,7 @@ namespace UniversalYoga.ViewModels
             ForgotCmd = new Command(ForgotPassword);
             ProtectedCmd = new Command(IsPasswordVisible);
         }
+        #region Functions
         public async void IsPasswordVisible()
         {
             isPassword = !isPassword;
@@ -110,6 +111,7 @@ namespace UniversalYoga.ViewModels
         {
             await Application.Current.MainPage.Navigation.PushAsync(new ForgotPasswordPage());
         }
+        /*When Login Button Clicked*/
         public async void Login()
         {
 
@@ -132,16 +134,21 @@ namespace UniversalYoga.ViewModels
                 {
                     if (Email != string.Empty || Password != string.Empty)
                     {
+                        /*FirebaseAuthProvider authenticates the users.
+                            FirebaseAuthentication.net Plugin must be installed.*/
                         var authProvider = new FirebaseAuthProvider(new FirebaseConfig(webApi.WebAPIKey));
                         try
                         {
                             IsBusy = true;
+                            /*Checking if the user email exists in firebase DB.*/
                             var response = await _userService.LoginUser(Email.Trim().ToLower());
+                            /*If the user data is retreived.*/
                             if (response != null)
                             {
+                                /*Signing in for email and password.*/
                                 var auth = await authProvider.SignInWithEmailAndPasswordAsync(Email.Trim().ToLower(), Password);
-                                var content = await auth.GetFreshAuthAsync();
-                                var serializedcontnet = JsonConvert.SerializeObject(content);
+                                /*If remember me is checked.
+                                 Preferences are stored by using Set using a string key.*/
                                 if (remember == true)
                                 {
                                     Preferences.Set("Login", "User");
@@ -151,6 +158,7 @@ namespace UniversalYoga.ViewModels
                                 Preferences.Set("Contact", response.Contact.Trim().ToLower());
                                 Preferences.Set("Name", response.FirstName.Trim() + " " + response.LastName.Trim());
                                 IsBusy = false;
+                                /*Application will goto Appshell (Tabbed Page).*/
                                 Application.Current.MainPage = new AppShell();
                             }
                             else
@@ -181,5 +189,6 @@ namespace UniversalYoga.ViewModels
         {
             await Application.Current.MainPage.Navigation.PushAsync(new RegisterPage());
         }
+        #endregion
     }
 }

@@ -9,6 +9,7 @@ namespace UniversalYoga.Models
 {
     public class FilterModel:BaseViewModel
     {
+        /*This is a model class containing variables of Filter by Day and Time.*/
         private string _Day;
 
         public string Day
@@ -24,8 +25,6 @@ namespace UniversalYoga.Models
             set { _time = value; OnPropertyChanged(); }
         }
 
-        //public string Day { get; set; }
         public TimeSpan Time { get; set; }
-        //public string time { get; set; }
     }
 }

@@ -10,9 +10,13 @@ using UniversalYoga.ViewModels;
 
 namespace UniversalYoga.Models
 {
+    /*This is a model class containing variables of Courses info.*/
+
+    /*A sqlite table is declared here.*/
     [Table("CourseTable")]
     public class YogaCourse:BaseViewModel
     {
+        /*PrimaryKey is declared for each course saved in local database.*/
         [PrimaryKey, AutoIncrement]
         public int courseID { get; set; }
         public string Key { get; set; }

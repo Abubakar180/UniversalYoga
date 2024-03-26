@@ -6,6 +6,8 @@ using System.Text;
 
 namespace UniversalYoga.ViewModels
 {
+    /*A class that implements this interface typically 
+     fires the event when one of its public properties changes value.*/
     public class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

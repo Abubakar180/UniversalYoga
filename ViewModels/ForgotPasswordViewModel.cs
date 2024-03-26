@@ -18,6 +18,7 @@ namespace UniversalYoga.ViewModels
 {
     public class ForgotPasswordViewModel : BaseViewModel
     {
+        #region
         private bool _IsBusy;
         public bool IsBusy
         {
@@ -54,6 +55,7 @@ namespace UniversalYoga.ViewModels
         private readonly IUser _userService;
         private readonly IToast _toast;
         public ICommand SendCMD { get; set; }
+        #endregion
         public ForgotPasswordViewModel()
         {
             Email = string.Empty;
@@ -64,7 +66,6 @@ namespace UniversalYoga.ViewModels
         }
         public async void SendPassword2Email()
         {
-
             var current = Connectivity.NetworkAccess;
             if (current == NetworkAccess.Internet)
             {
@@ -74,12 +75,14 @@ namespace UniversalYoga.ViewModels
                 }
                 else
                 {
+                    /*FirebaseAuthProvider authenticates the users.
+                     FirebaseAuthentication.net Plugin must be installed.*/
                     var authProvider = new FirebaseAuthProvider(new FirebaseConfig(webApi.WebAPIKey));
                     try
                     {
                         IsBusy = true;
+                        /*It will sends a link to user's email to reset the password.*/
                         await authProvider.SendPasswordResetEmailAsync(Email.Trim().ToLower());
-                        //Preferences.Set("Email", response.Email.Trim().ToLower());
                         await Application.Current.MainPage.DisplayAlert("", "A link has been sent to your email.", "Ok");
                         await Application.Current.MainPage.Navigation.PopAsync();
 

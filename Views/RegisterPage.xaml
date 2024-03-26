@@ -4,14 +4,8 @@
              x:Class="UniversalYoga.Views.RegisterPage"
              NavigationPage.HasNavigationBar="False"   
              xmlns:behaviour="clr-namespace:UniversalYoga.Behaviours"
-             xmlns:converter="clr-namespace:UniversalYoga.Converters"
              xmlns:control="clr-namespace:UniversalYoga.Controls"
              BackgroundColor="White">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <converter:IntToBoolConverter x:Key="intToBoolConverter"/>
-        </ResourceDictionary>
-    </ContentPage.Resources>
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
             <StackLayout Margin="20"
