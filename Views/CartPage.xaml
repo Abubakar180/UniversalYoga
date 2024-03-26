@@ -75,7 +75,7 @@
 
                     </VerticalStackLayout>
                     <CollectionView x:Name="List"
-                        WidthRequest="{OnPlatform  UWP='740',WinUI='740'}"
+                                    WidthRequest="{OnPlatform  UWP='740',WinUI='740'}"
                                     toolkit:StateView.StateKey="Success"
                                     ItemsSource="{Binding courses,Mode=TwoWay}">
                         <CollectionView.EmptyView>
@@ -92,6 +92,7 @@
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
+                                <!-- SwipeView To Delete Item -->
                                 <SwipeView BackgroundColor="Transparent">
 
                                     <SwipeView.RightItems>

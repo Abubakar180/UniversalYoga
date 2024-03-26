@@ -6,6 +6,7 @@
                  xmlns:Mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
                  BackgroundColor="#77000000"
                  CloseWhenBackgroundIsClicked="False">
+    <!--This is a Custom Popup Page-->
     <Mopups:PopupPage.Animation>
         <Animations:ScaleAnimation
             DurationIn="400"

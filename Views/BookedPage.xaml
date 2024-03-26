@@ -8,6 +8,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              BackgroundColor="#e6e6e6">
     <Grid RowDefinitions="Auto,*">
+        <!--Border designed as a Navigation Bar--> 
         <Border Background="{StaticResource Gradient}"
                StrokeThickness="-1"
                Padding="20,40,20,10"
@@ -28,6 +29,7 @@
                     </Border.StrokeShape>
                     <Grid ColumnDefinitions="Auto,*"
                                       ColumnSpacing="5">
+                        <!--Entry Text Changed Event.-->
                         <Entry Grid.Column="1" x:Name="search" Margin="0,0,0,-3" Text="{Binding searchTxt,Mode=TwoWay}" FontSize="16" PlaceholderColor="LightGray" TextColor="Black" FontFamily="Texta" Placeholder="Search" VerticalOptions="CenterAndExpand" TextChanged="search_TextChanged"/>
                         <Image Source="{FontImage FontFamily=UserIcon,
                                                 Glyph={x:Static Helper:IconFonts.Magnify}, Color={StaticResource PrimaryColor} ,Size=30}"
@@ -43,12 +45,13 @@
         </Border>
 
         <ScrollView Grid.Row="1">
-
+            <!--  StackLayout Bind with CurrentState describes what UI it shows depending on state  -->
             <StackLayout Margin="20,10"
                          Spacing="20"
                          toolkit:StateContainer.CurrentState="{Binding CurrentState, Mode=TwoWay}">
 
                 <toolkit:StateContainer.StateViews>
+                    <!--  Loading State  -->
                     <VerticalStackLayout toolkit:StateView.StateKey="Loading"
                                          Spacing="20">
 
@@ -87,7 +90,8 @@
                                Text="No Classes Found." />
 
                     </VerticalStackLayout>
-
+                    <!--  Success State  -->
+                    <!--  CollectionView Where Courses List is Displayed  -->
                     <CollectionView x:Name="List"
                         WidthRequest="{OnPlatform  UWP='740',WinUI='740'}"
                                     toolkit:StateView.StateKey="Success"
