@@ -54,7 +54,6 @@
                         <control:CustomEntry TitleText="Contact Number"
                                          EntryTextColor="Black"
                                          x:Name="contact"
-                                         Placeholder="*Must be 11 digits"
                                          EntryText="{Binding User.Contact,Mode=TwoWay}"
                                          Keyboard="Telephone">
                         </control:CustomEntry>

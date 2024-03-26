@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Converters;
+using Microsoft.Maui;
 using Microsoft.Maui.ApplicationModel.Communication;
 using Mopups.Services;
 using SQLite;
@@ -117,10 +118,19 @@ namespace UniversalYoga.ViewModels
                     else
                     {
                         IsBusy = true;
+                        var bookedcourses = await _courseService.GetBookedCoursesAsync();
+                        if (bookedcourses == null || bookedcourses.Count() == 0)
+                        { 
+                            bookedcourses = new List<YogaCourse>();
+                        }
                         foreach (var course in courses)
                         {
-                            course.BookedBy = email;
-                            await _courseService.BookCourse(course);
+                            var bookeddata = bookedcourses.Where(a => a.Id == course.Id && a.BookedBy == email).FirstOrDefault();
+                            if (bookeddata == null)
+                            {
+                                course.BookedBy = email;
+                                await _courseService.BookCourse(course);
+                            }
                         }
                         db.DeleteAll<YogaCourse>();
                         //db.DeleteAll<BookbyModel>();
