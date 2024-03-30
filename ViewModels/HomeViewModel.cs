@@ -232,14 +232,15 @@ namespace UniversalYoga.ViewModels
             {
                 IsBusy = true;
                 var item = obj as YogaCourse;
-                item.isCart = false;
-                item.Booked = true;
-                item.BookedBy = Preferences.Get("Email", "");
-                item.status = "In Cart";
+                var email = Preferences.Get("Email", "");
                 var Items = ReadOperations.GetAllWithChildren<YogaCourse>(db);
-                var cart_item = Items.Where(a => a.Id == item.Id && a.BookedBy == item.BookedBy).FirstOrDefault();
+                var cart_item = Items.Where(a => a.Id == item.Id && a.BookedBy == email).FirstOrDefault();
                 if (cart_item == null)
                 {
+                    item.isCart = false;
+                    item.Booked = true;
+                    item.BookedBy = Preferences.Get("Email", "");
+                    item.status = "In Cart";
                     db.InsertWithChildren(item);
                     CountItems();
                 }

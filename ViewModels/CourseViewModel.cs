@@ -84,16 +84,17 @@ namespace UniversalYoga.ViewModels
             try
             {
                 IsBusy = true;
-                course.isCart = false;
-                course.Booked = true;
-                course.BookedBy = Preferences.Get("Email", "");
-                /*Assigning status.*/
-                course.status = "In Cart";
+                var email = Preferences.Get("Email", "");
                 var Items = ReadOperations.GetAllWithChildren<YogaCourse>(db);
                 /*Checks if the same item is already in the cart based on course id and user email.*/
-                var cart_item = Items.Where(a => a.Id == course.Id && a.BookedBy == course.BookedBy).FirstOrDefault();
+                var cart_item = Items.Where(a => a.Id == course.Id && a.BookedBy == email).FirstOrDefault();
                 if (cart_item == null)
                 {
+                    course.isCart = false;
+                    course.Booked = true;
+                    course.BookedBy = Preferences.Get("Email", "");
+                    /*Assigning status.*/
+                    course.status = "In Cart";
                     db.InsertWithChildren(course);
                 }
                 else
