@@ -12,6 +12,7 @@ namespace UniversalYoga.Services.Implementation
 {
     public class ToastMessage : IToast
     {
+        /*CommunityToolkit.Maui plugin must be installed from nuget package*/
         CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         public async Task Show(string message)
         {

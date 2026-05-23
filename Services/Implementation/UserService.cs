@@ -41,13 +41,14 @@ namespace UniversalYoga.Services.Implementation
         }
         public async Task<bool> DeleteUser(string email)
         {
-
+            //get the user's info where email exists 
             var task = (await firebase.Child(nameof(clsUser)).OnceAsync<clsUser>())
                 .Where(a => a.Object.Email == email)
                 .FirstOrDefault();
 
             if (task != null)
             {
+                //DeleteAsync method is used to delete the user info from firebase DB using Key of Row
                 await firebase.Child(nameof(clsUser)).Child(task.Key).DeleteAsync();
                 return true;
             }
@@ -56,6 +57,7 @@ namespace UniversalYoga.Services.Implementation
                 return false;
             }
         }
+        //returns the user's info where user's email matches
         public async Task<clsUser> LoginUser(string email)
         {
             var GetPerson = (await firebase.Child(nameof(clsUser)).OnceAsync<clsUser>())
@@ -73,8 +75,6 @@ namespace UniversalYoga.Services.Implementation
                 return null;
             }
         }
-
-        //Get info of the client
         public async Task<List<clsUser>> GetInfo(string email)
         {
             var GetInfo = (await firebase.Child(nameof(clsUser)).OnceAsync<clsUser>()).Where(a => a.Object.Email == email).Select(item => new clsUser

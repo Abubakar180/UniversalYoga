@@ -6,6 +6,7 @@ using UniversalYoga.Models;
 
 namespace UniversalYoga.Services.Interface
 {
+    /*An Interface containg Methods for saving and fetching user's info.*/
     public interface IUser
     {
         Task<bool> RegisterUser(clsUser user);

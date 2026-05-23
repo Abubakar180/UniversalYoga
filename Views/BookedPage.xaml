@@ -2,11 +2,191 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="UniversalYoga.Views.BookedPage"
-             Title="BookedPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             NavigationPage.HasNavigationBar="False"
+             xmlns:Helper="clr-namespace:UniversalYoga.Helpers"
+             xmlns:control="clr-namespace:UniversalYoga.Controls"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             BackgroundColor="#e6e6e6">
+    <Grid RowDefinitions="Auto,*">
+        <!--Border designed as a Navigation Bar--> 
+        <Border Background="{StaticResource Gradient}"
+               StrokeThickness="-1"
+               Padding="20,40,20,10"
+               Grid.Row="0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="0,0,15,15"/>
+            </Border.StrokeShape>
+            <StackLayout Spacing="0">
+
+                <Border Padding="10,0"
+                        Margin="0,10,0,0"
+                                Stroke="LightGray"
+                                StrokeThickness="2"
+                                HeightRequest="45"
+                                BackgroundColor="White">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10"/>
+                    </Border.StrokeShape>
+                    <Grid ColumnDefinitions="Auto,*"
+                                      ColumnSpacing="5">
+                        <!--Entry Text Changed Event.-->
+                        <Entry Grid.Column="1" x:Name="search" Margin="0,0,0,-3" Text="{Binding searchTxt,Mode=TwoWay}" FontSize="16" PlaceholderColor="LightGray" TextColor="Black" FontFamily="Texta" Placeholder="Search" VerticalOptions="CenterAndExpand" TextChanged="search_TextChanged"/>
+                        <Image Source="{FontImage FontFamily=UserIcon,
+                                                Glyph={x:Static Helper:IconFonts.Magnify}, Color={StaticResource PrimaryColor} ,Size=30}"
+                               Grid.Column="0"
+                                         HeightRequest="30"
+                                         WidthRequest="30"
+                                         BackgroundColor="Transparent"
+                                         HorizontalOptions="StartAndExpand"/>
+                    </Grid>
+                </Border>
+
+            </StackLayout>
+        </Border>
+
+        <ScrollView Grid.Row="1">
+            <!--  StackLayout Bind with CurrentState describes what UI it shows depending on state  -->
+            <StackLayout Margin="20,10"
+                         Spacing="20"
+                         toolkit:StateContainer.CurrentState="{Binding CurrentState, Mode=TwoWay}">
+
+                <toolkit:StateContainer.StateViews>
+                    <!--  Loading State  -->
+                    <VerticalStackLayout toolkit:StateView.StateKey="Loading"
+                                         Spacing="20">
+
+                        <control:SkeletonView  Color="Silver"
+                                               CornerRadius="8"
+                                               HeightRequest="120"
+                                               HorizontalOptions="FillAndExpand"/>
+
+                        <control:SkeletonView  Color="Silver"
+                                               CornerRadius="8"
+                                               HeightRequest="120"
+                                               HorizontalOptions="FillAndExpand"/>
+
+                        <control:SkeletonView  Color="Silver"
+                                               CornerRadius="8"
+                                               HeightRequest="120"
+                                               HorizontalOptions="FillAndExpand"/>
+
+                        <control:SkeletonView  Color="Silver"
+                                               CornerRadius="8"
+                                               HeightRequest="120"
+                                               HorizontalOptions="FillAndExpand"/>
+
+                        <control:SkeletonView  Color="Silver"
+                                               CornerRadius="8"
+                                               HeightRequest="120"
+                                               HorizontalOptions="FillAndExpand"/>
+                    </VerticalStackLayout>
+
+                    <!--  Empty State  -->
+                    <VerticalStackLayout toolkit:StateView.StateKey="Empty">
+
+                        <Label HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               TextColor="Black"
+                               Text="No Classes Found." />
+
+                    </VerticalStackLayout>
+                    <!--  Success State  -->
+                    <!--  CollectionView Where Courses List is Displayed  -->
+                    <CollectionView x:Name="List"
+                        WidthRequest="{OnPlatform  UWP='740',WinUI='740'}"
+                                    toolkit:StateView.StateKey="Success"
+                                    SelectionMode="None"
+                                    ItemsSource="{Binding courses,Mode=TwoWay}">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical"
+                                             VerticalItemSpacing="20"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame BackgroundColor="White"
+                                       BorderColor="White"
+                                       HasShadow="False"
+                                       CornerRadius="8">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.SelectedCmd, Source={x:Reference List},Mode=TwoWay}"
+                                                              CommandParameter="{Binding .}"/>
+                                    </Frame.GestureRecognizers>
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <StackLayout Spacing="0"
+                                                     Grid.Column="0">
+                                            <Label Text="{Binding CourseName}"
+                                                   LineBreakMode="TailTruncation"
+                                                   MaxLines="1"
+                                                   FontFamily="Texta"
+                                                   FontSize="20"
+                                                   TextColor="Black"/>
+                                            <Label Text="{Binding TypeOfYoga}"
+                                                   LineBreakMode="TailTruncation"
+                                                   MaxLines="1"
+                                                   FontFamily="Texta"
+                                                   FontSize="14"
+                                                   TextColor="Gray"/>
+                                            <Label Text="{Binding DayOfWeek}"
+                                                   LineBreakMode="TailTruncation"
+                                                   MaxLines="1"
+                                                   FontFamily="Texta"
+                                                   FontSize="16"
+                                                   TextColor="Black"/>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label >
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Time: "
+                                                                FontFamily="Texta"
+                                                                FontSize="14"
+                                                                TextColor="Black"/>
+                                                            <Span Text="{Binding TimeOfCourse}"
+                                                                FontFamily="Texta"
+                                                                FontSize="20"
+                                                                TextColor="{StaticResource SecondoryColor}"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label Margin="20,0,0,0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Duration: "
+                                                                FontFamily="Texta"
+                                                                FontSize="14"
+                                                                TextColor="Black"/>
+                                                            <Span Text="{Binding Duration}"
+                                                                FontFamily="Texta"
+                                                                FontSize="20"
+                                                                TextColor="{StaticResource SecondoryColor}"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </StackLayout>
+                                        </StackLayout>
+
+                                        <StackLayout Grid.Column="1">
+                                            <Label HorizontalTextAlignment="Center">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding PricePerClass}"
+                                                                FontFamily="Texta"
+                                                                FontSize="Title"
+                                                                TextColor="{StaticResource SecondoryColor}"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+
+                                        </StackLayout>
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </toolkit:StateContainer.StateViews>
+
+            </StackLayout>
+
+        </ScrollView>
+    </Grid>
 </ContentPage>

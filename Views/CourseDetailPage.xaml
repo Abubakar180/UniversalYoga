@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="UniversalYoga.Views.CourseDetailPage"
+             NavigationPage.HasNavigationBar="False"
+             Shell.TabBarIsVisible="False"
+             xmlns:Helper="clr-namespace:UniversalYoga.Helpers"
+             xmlns:control="clr-namespace:UniversalYoga.Controls"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             BackgroundColor="#e6e6e6">
+    <Grid RowDefinitions="Auto,*,Auto">
+        <Border Background="{StaticResource Gradient}"
+               StrokeThickness="-1"
+               Padding="20,40,20,10"
+               Grid.Row="0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="0,0,15,15"/>
+            </Border.StrokeShape>
+            <StackLayout Spacing="0">
+
+                <Grid Margin="0,0,0,5"
+                      ColumnSpacing="10">
+                    <Label HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Course Detail" FontFamily="Texta" TextColor="White" FontSize="20"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <ImageButton Source="{FontImage FontFamily=UserIcon,
+                                                Glyph={x:Static Helper:IconFonts.ChevronLeft} , Color=White ,Size=30}"
+                                     Padding="0" 
+                                     HeightRequest="30"
+                                     WidthRequest="30"
+                                     BackgroundColor="Transparent"
+                                    HorizontalOptions="StartAndExpand"
+                                    x:Name="back"
+                                    Command="{Binding BackCmd,Mode=TwoWay}"/>
+                </Grid>
+
+            </StackLayout>
+        </Border>
+
+        <ScrollView Grid.Row="1">
+
+            <StackLayout Margin="20,10"
+                         Spacing="5"
+                        WidthRequest="{OnPlatform  UWP='740',WinUI='740'}">
+
+                <Frame BackgroundColor="{StaticResource SecondoryColor}"
+                               CornerRadius="2"
+                               BorderColor="Transparent"
+                               Padding="0"
+                       IsVisible="{Binding course.Booked,Mode=TwoWay}"
+                               HorizontalOptions="StartAndExpand">
+                    <Label Text="{Binding course.status,Mode=TwoWay}"
+                                   TextColor="White"
+                           Margin="5,1,5,1"
+                                   FontSize="Small"
+                                   VerticalTextAlignment="Center"
+                                   FontFamily="Texta"/>
+                </Frame>
+
+                <Frame BackgroundColor="White"
+                       BorderColor="White"
+                       CornerRadius="12"
+                       HasShadow="False">
+
+                    <StackLayout>
+
+                        <Grid ColumnDefinitions="*,Auto"
+                              Margin="0,0,0,10">
+
+                            <Label Text="{Binding course.CourseName,Mode=TwoWay}"
+                                   TextColor="{StaticResource SecondoryColor}"
+                                   FontSize="Large"
+                                   FontFamily="Texta"
+                                   Grid.Column="0"/>
+
+                            <Label Text="{Binding course.PricePerClass,Mode=TwoWay}"
+                                   TextColor="{StaticResource SecondoryColor}"
+                                   FontSize="Large"
+                                   FontFamily="Texta"
+                                   Grid.Column="1"/>
+
+                        </Grid>
+
+                        <StackLayout Orientation="Horizontal">
+
+                            <Label Text="Type: "
+                                   TextColor="Gray"
+                                   FontSize="Body"
+                                   FontFamily="Texta"/>
+
+                            <Label Text="{Binding course.TypeOfYoga,Mode=TwoWay}"
+                                   TextColor="Black"
+                                   FontSize="Body"
+                                   FontFamily="Texta"/>
+
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+
+                            <Label Text="Course Timing: "
+                                   TextColor="Gray"
+                                   FontSize="Body"
+                                   FontFamily="Texta"/>
+
+                            <Label Text="{Binding course.TimeOfCourse,Mode=TwoWay}"
+                                   TextColor="Black"
+                                   FontSize="Body"
+                                   FontFamily="Texta"/>
+
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+
+                            <Label Text="Duration: "
+                                   TextColor="Gray"
+                                   FontSize="Body"
+                                   FontFamily="Texta"/>
+
+                            <Label Text="{Binding course.Duration,Mode=TwoWay}"
+                                   TextColor="Black"
+                                   FontSize="Body"
+                                   FontFamily="Texta"/>
+
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+
+                            <Label Text="Day: "
+                                   TextColor="Gray"
+                                   FontSize="Body"
+                                   FontFamily="Texta"/>
+
+                            <Label Text="{Binding course.DayOfWeek,Mode=TwoWay}"
+                                   TextColor="Black"
+                                   FontSize="Body"
+                                   FontFamily="Texta"/>
+
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+
+                            <Label Text="Capacity: "
+                                   TextColor="Gray"
+                                   FontSize="Body"
+                                   FontFamily="Texta"/>
+
+                            <Label Text="{Binding course.Capacity,Mode=TwoWay}"
+                                   TextColor="Black"
+                                   FontSize="Body"
+                                   FontFamily="Texta"/>
+
+                        </StackLayout>
+                        <Label Text="{Binding course.Description,Mode=TwoWay}"
+                                TextColor="Black"
+                                FontSize="Body"
+                                FontFamily="Texta"/>
+
+                    </StackLayout>
+
+                </Frame>
+                <Label Text="Teachers"
+                       FontFamily="Texta"
+                       FontSize="20"
+                       TextColor="Black"
+                       Margin="0,20,0,0"/>
+
+                <CollectionView x:Name="List"
+                            SelectionMode="None"
+                            ItemsSource="{Binding classes,Mode=TwoWay}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"
+                         VerticalItemSpacing="5"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="White"
+                                   BorderColor="White"
+                                   HasShadow="False"
+                                   Padding="10,5"
+                                   CornerRadius="8">
+                                <StackLayout Spacing="0">
+                                    <Label Text="{Binding TeacherName}"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="1"
+                                           FontFamily="Texta"
+                                           FontSize="20"
+                                           TextColor="Black"/>
+                                    <Label Text="{Binding Description}"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="1"
+                                           FontFamily="Texta"
+                                           FontSize="16"
+                                           TextColor="Gray"/>
+                                </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+
+            </StackLayout>
+
+        </ScrollView>
+
+        <Button Text="Add to Cart"
+                Margin="20,10" 
+                IsVisible="{Binding course.isCart , Mode=TwoWay}"
+                BorderColor="{StaticResource SecondoryColor}"
+                BorderWidth="3"
+                TextColor="{StaticResource SecondoryColor}"
+                FontFamily="Texta"
+                FontSize="Subtitle"
+                BackgroundColor="White"
+                CornerRadius="{OnPlatform Android='40' ,iOS='20',UWP='20',WinUI='20'}"
+                Grid.Row="2"
+                WidthRequest="{OnPlatform  UWP='500',WinUI='500'}"
+                Command="{Binding CartCmd,Mode=TwoWay}"/>
+    </Grid>
+</ContentPage>

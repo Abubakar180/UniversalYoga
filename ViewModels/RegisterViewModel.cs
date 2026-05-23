@@ -77,6 +77,7 @@ namespace UniversalYoga.ViewModels
             LoginCMD = new Command(Login);
             SignupCMD = new Command(SignupAsync);
         }
+        #region Functions
         public async void SignupAsync()
         {
             var current = Connectivity.NetworkAccess;
@@ -123,11 +124,12 @@ namespace UniversalYoga.ViewModels
                         {
                             IsBusy = true;
                             User.Email = User.Email.ToLower().Trim();
+                            /*FirebaseAuthProvider authenticates the users.
+                                FirebaseAuthentication.net Plugin must be installed.*/
                             var authProvider = new FirebaseAuthProvider(new FirebaseConfig(webApi.WebAPIKey));
                             var auth = await authProvider.CreateUserWithEmailAndPasswordAsync(User.Email.Trim().ToLower(), User.password);
+                            /*If user is created through auth. User data will be save in Firebase DB.*/
                             await _userService.RegisterUser(User);
-                            var content = await auth.GetFreshAuthAsync();
-                            var serializedcontnet = JsonConvert.SerializeObject(content);
                             Preferences.Set("Address", User.Address.Trim().ToLower());
                             Preferences.Set("Contact", User.Contact.Trim().ToLower());
                             Preferences.Set("Email", User.Email.Trim().ToLower());
@@ -158,5 +160,6 @@ namespace UniversalYoga.ViewModels
         {
             await Application.Current.MainPage.Navigation.PopAsync();
         }
+        #endregion
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace UniversalYoga.Models
 {
+    /*This is a model class containing variables of User Credentials.*/
     public class clsUser : BaseViewModel
     {
         public string key { get; set; }

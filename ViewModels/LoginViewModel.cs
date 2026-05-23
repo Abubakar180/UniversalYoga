@@ -44,13 +44,22 @@ namespace UniversalYoga.ViewModels
                 OnPropertyChanged();
             }
         }
-        private Color _EmailColor;
-
-        public Color EmailColor
+        private bool _isPassword ;
+        public bool isPassword
         {
-            get { return _EmailColor; }
-            set { _EmailColor = value; OnPropertyChanged(); }
+            get { return _isPassword; }
+            set
+            {
+                if (_isPassword != value)
+                {
+                    _isPassword = value;
+                    OnPropertyChanged(nameof(isPassword));
+                    OnPropertyChanged(nameof(eyeImage));
+                }
+            }
         }
+
+        public ImageSource eyeImage => isPassword ? "eye_closed.png" : "eye.png";
 
         private string _Email;
         public string Email
@@ -76,11 +85,13 @@ namespace UniversalYoga.ViewModels
         private readonly IUser _userService;
         private readonly IToast _toast;
         public ICommand LoginCMD { get; set; }
+        public ICommand ProtectedCmd { get; set; }
         public ICommand SignupCMD { get; set; }
+        public ICommand ForgotCmd { get; set; }
         #endregion
         public LoginViewModel()
         {
-            EmailColor = Color.FromHex("#FF0000");
+            isPassword = true;
             Email = string.Empty;
             Password = string.Empty;
             webApi = new FirebaseWebApi();
@@ -88,7 +99,19 @@ namespace UniversalYoga.ViewModels
             _toast = DependencyService.Resolve<IToast>();
             LoginCMD = new Command(Login);
             SignupCMD = new Command(Signup);
+            ForgotCmd = new Command(ForgotPassword);
+            ProtectedCmd = new Command(IsPasswordVisible);
         }
+        #region Functions
+        public async void IsPasswordVisible()
+        {
+            isPassword = !isPassword;
+        }
+        public async void ForgotPassword()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new ForgotPasswordPage());
+        }
+        /*When Login Button Clicked*/
         public async void Login()
         {
 
@@ -111,16 +134,21 @@ namespace UniversalYoga.ViewModels
                 {
                     if (Email != string.Empty || Password != string.Empty)
                     {
+                        /*FirebaseAuthProvider authenticates the users.
+                            FirebaseAuthentication.net Plugin must be installed.*/
                         var authProvider = new FirebaseAuthProvider(new FirebaseConfig(webApi.WebAPIKey));
                         try
                         {
                             IsBusy = true;
+                            /*Checking if the user email exists in firebase DB.*/
                             var response = await _userService.LoginUser(Email.Trim().ToLower());
+                            /*If the user data is retreived.*/
                             if (response != null)
                             {
+                                /*Signing in for email and password.*/
                                 var auth = await authProvider.SignInWithEmailAndPasswordAsync(Email.Trim().ToLower(), Password);
-                                var content = await auth.GetFreshAuthAsync();
-                                var serializedcontnet = JsonConvert.SerializeObject(content);
+                                /*If remember me is checked.
+                                 Preferences are stored by using Set using a string key.*/
                                 if (remember == true)
                                 {
                                     Preferences.Set("Login", "User");
@@ -130,6 +158,7 @@ namespace UniversalYoga.ViewModels
                                 Preferences.Set("Contact", response.Contact.Trim().ToLower());
                                 Preferences.Set("Name", response.FirstName.Trim() + " " + response.LastName.Trim());
                                 IsBusy = false;
+                                /*Application will goto Appshell (Tabbed Page).*/
                                 Application.Current.MainPage = new AppShell();
                             }
                             else
@@ -160,5 +189,6 @@ namespace UniversalYoga.ViewModels
         {
             await Application.Current.MainPage.Navigation.PushAsync(new RegisterPage());
         }
+        #endregion
     }
 }

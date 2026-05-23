@@ -4,7 +4,9 @@ using System.Text;
 
 namespace UniversalYoga.Helpers
 {
-	static class IconFonts
+    /*These are actually the font characters behave like images. 
+	  The characters are extracted from materialdesignicons-webfont.ttf in Resources/Fonts Folder.*/
+    static class IconFonts
 	{
 		public const string VectorSquare = "\U000f0001";
 		public const string AccessPointNetwork = "\U000f0002";

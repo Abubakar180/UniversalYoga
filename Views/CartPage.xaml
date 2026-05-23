@@ -2,11 +2,252 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="UniversalYoga.Views.CartPage"
-             Title="CartPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             NavigationPage.HasNavigationBar="False"
+             Shell.TabBarIsVisible="False"
+             xmlns:Helper="clr-namespace:UniversalYoga.Helpers"
+             xmlns:control="clr-namespace:UniversalYoga.Controls"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             BackgroundColor="#e6e6e6">
+    <Grid RowDefinitions="Auto,*,Auto">
+        <Border Background="{StaticResource Gradient}"
+               StrokeThickness="-1"
+               Padding="20,40,20,10"
+               Grid.Row="0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="0,0,15,15"/>
+            </Border.StrokeShape>
+            <StackLayout Spacing="0">
+                
+                <Grid Margin="0,0,0,5"
+                      ColumnSpacing="10">
+                    <Label HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Cart" FontFamily="Texta" TextColor="White" FontSize="20"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                        <ImageButton Source="{FontImage FontFamily=UserIcon,
+                                                Glyph={x:Static Helper:IconFonts.ChevronLeft} , Color=White ,Size=30}"
+                                     Padding="0" 
+                                     HeightRequest="30"
+                                     WidthRequest="30"
+                                     BackgroundColor="Transparent"
+                                    HorizontalOptions="StartAndExpand"
+                                    x:Name="back"
+                                    Command="{Binding BackCmd,Mode=TwoWay}"/>
+                </Grid>
+
+            </StackLayout>
+        </Border>
+
+        <ScrollView Grid.Row="1">
+
+            <StackLayout Margin="20,10"
+                         Spacing="20"
+                         toolkit:StateContainer.CurrentState="{Binding CurrentState, Mode=TwoWay}">
+                <toolkit:StateContainer.StateViews>
+                    <HorizontalStackLayout toolkit:StateView.StateKey="Loading"
+                             Spacing="20">
+                        <ActivityIndicator HeightRequest="25"
+                                                IsRunning="True"
+                                            WidthRequest="25"
+                                                Color="{StaticResource SecondoryColor}" />
+
+                        <Label VerticalTextAlignment="Center"
+                               Text="Loading ..." 
+                               FontFamily="Texta"
+                               TextColor="Black"/>
+
+
+                    </HorizontalStackLayout>
+
+                    <!--  Empty State  -->
+                    <VerticalStackLayout toolkit:StateView.StateKey="Empty">
+
+                        <Label Text="Your cart is empty."
+                               VerticalTextAlignment="Start"
+                               HorizontalTextAlignment="Center"
+                               TextColor="Black"
+                               FontFamily="Texta"/>
+
+                    </VerticalStackLayout>
+                    <CollectionView x:Name="List"
+                                    WidthRequest="{OnPlatform  UWP='740',WinUI='740'}"
+                                    toolkit:StateView.StateKey="Success"
+                                    ItemsSource="{Binding courses,Mode=TwoWay}">
+                        <CollectionView.EmptyView>
+                            <Label Text="Your cart is empty."
+                                   VerticalTextAlignment="Start"
+                                   HorizontalTextAlignment="Center"
+                                   TextColor="Black"
+                                   FontFamily="Texta"/>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical"
+                                             VerticalItemSpacing="20"
+                                             HorizontalItemSpacing="20"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <!-- SwipeView To Delete Item -->
+                                <SwipeView BackgroundColor="Transparent">
+
+                                    <SwipeView.RightItems>
+                                        <SwipeItems >
+                                            <SwipeItemView BackgroundColor="Transparent"
+                                                       Command="{Binding Path=BindingContext.DeleteCmd, Source={x:Reference List}}"
+                                                       CommandParameter="{Binding}">
+                                                <Frame BackgroundColor="{StaticResource SecondoryColor}"
+                                                       Padding="0"
+                                                       CornerRadius="10"
+                                                       Margin="20,0,20,0"
+                                                       WidthRequest="65"
+                                                       HeightRequest="65"
+                                                       VerticalOptions="CenterAndExpand"
+                                                       BorderColor="{StaticResource SecondoryColor}">
+                                                    <StackLayout HorizontalOptions="CenterAndExpand"
+                                                                VerticalOptions="CenterAndExpand">
+                                                        <Image Source="trash.png"
+                                                               HeightRequest="35"
+                                                               Aspect="AspectFit"
+                                                               HorizontalOptions="CenterAndExpand">
+                                                            <Image.Behaviors>
+                                                                <toolkit:IconTintColorBehavior TintColor="White"/>
+                                                            </Image.Behaviors>
+                                                        </Image>
+
+                                                    </StackLayout>
+                                                </Frame>
+                                            </SwipeItemView>
+
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+
+                                    <StackLayout>
+                                        <Frame BackgroundColor="{StaticResource SecondoryColor}"
+                                               IsVisible="{Binding IsVisible, Mode=TwoWay}"
+                                               Padding="2"
+                                               HeightRequest="30"
+                                               CornerRadius="5"
+                                               HorizontalOptions="EndAndExpand"
+                                               BorderColor="{StaticResource SecondoryColor}">
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.DeleteCmd, Source={x:Reference List}}"
+                                                                      CommandParameter="{Binding}"/>
+                                            </Frame.GestureRecognizers>
+                                            <StackLayout HorizontalOptions="CenterAndExpand"
+                                                         VerticalOptions="CenterAndExpand"
+                                                         Orientation="Horizontal">
+                                                <Image Source="{FontImage FontFamily=UserIcon,
+                                                                Glyph={x:Static Helper:IconFonts.DeleteOutline},Color=White,Size=20}"
+                                                       Aspect="AspectFit"/>
+                                                <Label Text="Delete"
+                                                       FontFamily="Texta"
+                                                       FontAttributes="Bold"
+                                                       VerticalTextAlignment="Center"
+                                                       TextColor="White"
+                                                       FontSize="12"/>
+                                            </StackLayout>
+                                        </Frame>
+
+                                        <Frame BackgroundColor="White"
+                                           BorderColor="White"
+                                           HasShadow="False"
+                                           CornerRadius="8">
+                                            <Grid ColumnDefinitions="*,Auto">
+                                                <StackLayout Spacing="0"
+                                                     Grid.Column="0">
+                                                    <Label Text="{Binding CourseName}"
+                                                   LineBreakMode="TailTruncation"
+                                                   MaxLines="1"
+                                                   FontFamily="Texta"
+                                                   FontSize="20"
+                                                   TextColor="Black"/>
+                                                    <Label Text="{Binding TypeOfYoga}"
+                                                   LineBreakMode="TailTruncation"
+                                                   MaxLines="1"
+                                                   FontFamily="Texta"
+                                                   FontSize="14"
+                                                   TextColor="Gray"/>
+                                                    <Label Text="{Binding Description}"
+                                                   LineBreakMode="TailTruncation"
+                                                   MaxLines="1"
+                                                   FontFamily="Texta"
+                                                   FontSize="16"
+                                                   TextColor="Black"/>
+                                                    <StackLayout Orientation="Horizontal">
+                                                        <Label >
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="Time: "
+                                                                FontFamily="Texta"
+                                                                FontSize="14"
+                                                                TextColor="Black"/>
+                                                                    <Span Text="{Binding TimeOfCourse}"
+                                                                FontFamily="Texta"
+                                                                FontSize="20"
+                                                                TextColor="{StaticResource SecondoryColor}"/>
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+                                                        <Label Margin="20,0,0,0">
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="Duration: "
+                                                                FontFamily="Texta"
+                                                                FontSize="14"
+                                                                TextColor="Black"/>
+                                                                    <Span Text="{Binding Duration}"
+                                                                FontFamily="Texta"
+                                                                FontSize="20"
+                                                                TextColor="{StaticResource SecondoryColor}"/>
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+                                                    </StackLayout>
+                                                </StackLayout>
+
+                                                <StackLayout Grid.Column="1">
+                                                    <Label HorizontalTextAlignment="Center">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="{Binding PricePerClass}"
+                                                                FontFamily="Texta"
+                                                                FontSize="Title"
+                                                                TextColor="{StaticResource SecondoryColor}"/>
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+
+                                                </StackLayout>
+                                            </Grid>
+                                        </Frame>
+
+                                    </StackLayout>
+                                </SwipeView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </toolkit:StateContainer.StateViews>
+
+            </StackLayout>
+
+        </ScrollView>
+
+        <Button Text="Book Now"
+                Margin="20,10" 
+                BorderColor="{StaticResource SecondoryColor}"
+                BorderWidth="3"
+                TextColor="{StaticResource SecondoryColor}"
+                FontFamily="Texta"
+                FontSize="Subtitle"
+                BackgroundColor="White"
+                CornerRadius="{OnPlatform Android='40' ,iOS='20',UWP='20',WinUI='20'}"
+                Grid.Row="2"
+                        WidthRequest="{OnPlatform  UWP='740',WinUI='740'}"
+                Command="{Binding BookCmd,Mode=TwoWay}"/>
+    </Grid>
 </ContentPage>

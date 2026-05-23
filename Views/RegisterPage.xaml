@@ -4,14 +4,8 @@
              x:Class="UniversalYoga.Views.RegisterPage"
              NavigationPage.HasNavigationBar="False"   
              xmlns:behaviour="clr-namespace:UniversalYoga.Behaviours"
-             xmlns:converter="clr-namespace:UniversalYoga.Converters"
              xmlns:control="clr-namespace:UniversalYoga.Controls"
              BackgroundColor="White">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <converter:IntToBoolConverter x:Key="intToBoolConverter"/>
-        </ResourceDictionary>
-    </ContentPage.Resources>
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
             <StackLayout Margin="20"
@@ -26,59 +20,60 @@
                             FontSize="26"
                             TextColor="Black"
                            HorizontalTextAlignment="Center"/>
+                    <StackLayout Spacing="20"
+                                WidthRequest="{OnPlatform UWP='500',WinUI='500'}">
 
-                    <control:CustomEntry TitleText="First Name"
+                        <control:CustomEntry TitleText="First Name"
                                          EntryTextColor="Black"
                                          x:Name="firstName"
                                          EntryText="{Binding User.FirstName,Mode=TwoWay}">
-                    </control:CustomEntry>
+                        </control:CustomEntry>
 
-                    <control:CustomEntry TitleText="Last Name"
+                        <control:CustomEntry TitleText="Last Name"
                                          EntryTextColor="Black"
                                          x:Name="lastName"
                                          EntryText="{Binding User.LastName,Mode=TwoWay}">
-                    </control:CustomEntry>
+                        </control:CustomEntry>
 
-                    <control:CustomEntry TitleText="Email"
+                        <control:CustomEntry TitleText="Email"
                                          x:Name="email"
                                          EntryTextColor="{Binding EmailColor,Mode=TwoWay}"
                                          EntryText="{Binding User.Email,Mode=TwoWay}"
                                          Keyboard="Email">
-                        <control:CustomEntry.EntryBehavior>
-                            <behaviour:EmailValidatorBehavior x:Name="emailBehaviour" />
-                        </control:CustomEntry.EntryBehavior>
-                    </control:CustomEntry>
+                            <control:CustomEntry.EntryBehavior>
+                                <behaviour:EmailValidatorBehavior x:Name="emailBehaviour" />
+                            </control:CustomEntry.EntryBehavior>
+                        </control:CustomEntry>
 
-                    <control:CustomEntry TitleText="Contact Number"
+                        <control:CustomEntry TitleText="Contact Number"
                                          EntryTextColor="Black"
                                          x:Name="contact"
-                                         Placeholder="*Must be 11 digits"
                                          EntryText="{Binding User.Contact,Mode=TwoWay}"
                                          Keyboard="Telephone">
-                    </control:CustomEntry>
+                        </control:CustomEntry>
 
-                    <control:CustomEntry TitleText="Address"
+                        <control:CustomEntry TitleText="Address"
                                          Placeholder="*Optional"
                                          EntryTextColor="Black"
                                          x:Name="address"
                                          EntryText="{Binding User.Address,Mode=TwoWay}">
-                    </control:CustomEntry>
+                        </control:CustomEntry>
 
-                    <control:CustomEntry TitleText="Password"
+                        <control:CustomEntry TitleText="Password"
                                      Placeholder="*Atleast 6 letters"
                                      EntryTextColor="Black"
                                      x:Name="txtpassword"
                                      EntryText="{Binding User.password,Mode=TwoWay}"
                                      IsPassword="True">
-                    </control:CustomEntry>
+                        </control:CustomEntry>
 
-                    <control:CustomEntry TitleText="Confirm Password"
+                        <control:CustomEntry TitleText="Confirm Password"
                                          EntryTextColor="Black"
                                          x:Name="confirm_password"
                                          EntryText="{Binding ConfirmPassword}"
                                          IsPassword="True"/>
 
-
+                    </StackLayout>
                 </StackLayout>
 
                 <Button Text="SignUp"
@@ -109,6 +104,7 @@
                        VerticalTextAlignment="Center"/>
 
             <Button Text="Login Now"
+                        BorderColor="Transparent"
                         Style="{StaticResource textButton}"
                         Command="{Binding LoginCMD , Mode=TwoWay}"/>
 
